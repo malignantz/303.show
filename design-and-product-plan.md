@@ -193,16 +193,65 @@ Stack: **SvelteKit + adapter-static** (fits your Svelte practice), prerendered
 Cloudflare Pages (pairs with Cloudflare Registrar per context doc). No client
 data fetching on first paint — the list is in the HTML.
 
-## 8. Data enrichment (later, still no DB)
+## 8. Data enrichment & outbound links — the "who is this / how do I go" layer
 
-Pipeline-side, cached into the committed JSON — keeps the static architecture:
-- **Artist match → Spotify/MusicBrainz** (build-time API calls): genre tags →
-  honest genre filter; 30-sec preview link on show pages ("who is this?" is a
-  real Job 2 need).
-- **Venue alias map** (already planned) grows into venue pages w/ address, map
-  link, capacity.
-- Every enrichment is optional decoration on the row spec — the site must be
-  whole without it, because the sheet is the only guaranteed data.
+All enrichment happens **at build time in the pipeline**, cached into the
+committed JSON. Nothing here adds a database, a client API call, or a runtime
+dependency. Every field is optional decoration on the row spec — the site stays
+whole without it, because the sheet is the only guaranteed data. This is the
+concrete spec for the three integrations we want.
+
+### 8a. Spotify — "listen before you buy" + honest genres
+The single highest-value enrichment. It answers Job 2's real question ("who *is*
+this band?") and unlocks a genre filter we can't fake from the sheet.
+
+- **Auth**: Spotify Web API *client-credentials* flow (no user login) — a free
+  app's Client ID/Secret in GitHub secrets. Server-to-server, build-time only.
+- **Per headliner**: `GET /v1/search?type=artist&q=<name>` → take the best match
+  (guard on popularity + name similarity to avoid false hits on generic names).
+  Cache into the show/artist record: `spotifyUrl`, `spotifyId`, `image`,
+  `genres[]`, `followers`, and a `previewTrackUrl` (top track's 30-sec preview).
+- **On the site**: a small ▶ "preview" on the show page (Web Audio, same muted
+  logic as the easter egg); an artist image as optional art; and **genres → the
+  genre filter chips we deliberately deferred in §5.** Cache keyed by artist so
+  we only hit the API for artists we haven't resolved before.
+- **Cost/limits**: search is cheap; ~1250 upcoming headliners is well within
+  rate limits with light throttling. Persist an `artist-cache.json` so daily
+  rebuilds only query genuinely new names.
+
+### 8b. Original ticket links — we're already throwing away the signal
+The sheet has no per-show URLs, **but every venue header encodes its ticketing
+platform** — `Red Rocks (AXS)`, `The Fillmore (Ticketmaster)`,
+`Summit Music Hall (Ticketmaster)`. The parser currently *strips and discards*
+that tag. Step one is to **capture it** as `venue.ticketPlatform` instead.
+
+- With platform known, render a **"Find tickets on AXS / Ticketmaster"** button
+  that deep-searches the platform for the artist (best-effort search URL, or the
+  venue's own calendar page when we have it). Honest framing: it's a search, not
+  a guaranteed exact-show deep link — we don't invent a URL we can't verify.
+- Where the venue has an official calendar/tickets URL, store it on the venue
+  record (`venue.ticketsUrl`) and prefer that.
+- This is a near-free win (the data's already in hand) and should land first.
+
+### 8c. CashOrTrade — face-value resale, made for this scene
+Denver is a jam/Red-Rocks town; **face-value fan-to-fan resale is culturally
+on-brand** in a way StubHub never is, and CashOrTrade now has a Ticketmaster
+face-value integration (Apr 2026), so verified transfers work.
+
+- Add a **"Face-value resale on CashOrTrade"** link on every show page, and
+  surface it *prominently on `soldOut` shows* — that's exactly when a fan needs
+  it. Framing it as the anti-scalper option is itself a reason people trust and
+  return to the site.
+- Linking: CashOrTrade uses path-based search — `/search/performers` and
+  `/search/events` (plus a general search bar). We deep-link a performer/event
+  search by artist name; if they expose a stable `?q=` we use it, otherwise the
+  search landing keyed to the artist. No API needed.
+
+### 8d. Guardrails
+- Outbound ticket/resale links are `rel="noopener nofollow"`, clearly labeled by
+  destination, and never auto-redirect. We recommend, we don't transact.
+- Enrichment failures degrade silently — a missing Spotify match just omits the
+  preview; a show is never blocked on an API.
 
 ## 9. Phasing
 
@@ -219,9 +268,24 @@ It should already be the best way to see Denver shows on a phone.
 Just Added (git diff), `/weekend`, RSS, `.ics` export, OG poster cards,
 PWA offline + install prompt, sequencer easter egg, "Pick for me."
 
-**Phase 3 — earned features (only if usage says so)**
-Email digest, artist enrichment + genre filter + previews, push for starred
-venues, maybe a public "changes" page (the git log as scene news).
+**Phase 3 — enrichment & links (next up)**
+In priority order:
+1. **Capture ticket platform** from venue headers (§8b) — near-free, land first.
+2. **CashOrTrade links** on every show, prominent on sold-out (§8c).
+3. **Spotify enrichment** → previews + `genres` (§8a), then the **genre filter**.
+4. Self-host font subsets; generate **OG poster images** (the sharing hook).
+5. Email/RSS digest; push for starred venues; a public "changes" page (the git
+   log as scene news).
+
+**Daily freshness — how it actually works (built in Phase 1)**
+`.github/workflows/build-data.yml` runs on a **daily cron (~7:17am Denver)** plus
+manual `workflow_dispatch`. It re-reads all 12 sheet tabs, and **commits
+`shows.json` only if something changed**; that commit triggers the Cloudflare
+Pages rebuild. To go live it needs: GitHub Actions enabled with *read/write*
+workflow permissions (so the bot can push), and Cloudflare Pages connected to
+the repo. Caveats to know: GitHub auto-disables cron on repos with 60 days no
+activity (a manual run or commit resets it), and scheduled runs can lag at peak
+— fine for once-daily listings.
 
 ## 10. Open questions
 
@@ -239,6 +303,8 @@ venues, maybe a public "changes" page (the git log as scene news).
 - Showlist Austin — https://austin.showlists.net/ (dense chronological list, filters, ticket links; the format that scenes trust)
 - 19hz.info Bay Area — https://19hz.info/eventlisting_BayArea.php (tabular: time/tags/price/age/organizer/links; recurring-events section; venue+promoter directories)
 - Do303 — https://do303.com/ (broad DoStuff events guide; fetch blocked by 403 — promo-heavy network model)
+- CashOrTrade — https://cashortrade.org/ (face-value fan-to-fan resale; path-based search `/search/performers`, `/search/events`; Ticketmaster face-value integration Apr 2026 per https://newsroom.livenation.com/news/ticketmaster-expands-face-value-ticket-resale-with-cashortrade/)
+- Spotify Web API (client-credentials, artist search + top-track preview) — build-time enrichment source for genres/previews
 - 303 Local Music — https://www.303localmusic.com/
 - Westword calendar — https://www.westword.com/music/denver-concert-calendar-find-any-show-in-town-5699762/
 - 303 Magazine calendar — https://303magazine.com/calendar/
