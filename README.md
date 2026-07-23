@@ -33,18 +33,22 @@ skips the pipeline and just builds from the current `data/shows.json`.
 ## Wiring the real Google Sheet
 
 The real source is **one spreadsheet with twelve monthly tabs**, each a GRID:
-the header row is venue names (columns), column 0 of each row is a date (`M/D`),
-and every other cell holds that venue's show(s) that day, e.g.
+the header row is venue names (columns), column 0 of each row is a date, and
+every other cell holds that venue's show(s) that day, e.g.
 `Headliner | Opener One | Opener Two 8PM`. A cell can hold multiple shows
-separated by a run of 3+ spaces, each ending in its time.
+separated by a run of 3+ spaces, each ending in its time. **Each cell is also a
+hyperlink to the show's ticket page** (AXS / Ticketmaster / Etix / DICE / …).
 
-The pipeline reads each tab with no auth via its CSV export URL, flattens the
-grid to rows ([`pipeline/parse-matrix.mjs`](pipeline/parse-matrix.mjs)), then runs
-the same normalizer as any other source.
+The pipeline downloads the whole workbook **once as XLSX** (no auth) via
+[`pipeline/xlsx.mjs`](pipeline/xlsx.mjs) — XLSX because, unlike the CSV export,
+it preserves those per-cell ticket hyperlinks. It flattens each grid to rows
+([`pipeline/parse-matrix.mjs`](pipeline/parse-matrix.mjs)), classifies each
+ticket link's platform, then runs the same normalizer as any other source.
+~96% of shows come out with an exact ticket deep-link.
 
 ```bash
 export SHEET_ID="19Dq2O2ee7raAis5rwkqYr22DVgIGlB7ylrKQNkka-pk"  # default, baked in
-node pipeline/fetch-and-build.mjs   # (without --mock) fetches all 12 tabs
+node pipeline/fetch-and-build.mjs   # (without --mock) fetches all tabs as one XLSX
 ```
 
 Env knobs (all optional):
@@ -52,31 +56,29 @@ Env knobs (all optional):
 | Var          | Purpose                                                       | Default            |
 |--------------|---------------------------------------------------------------|--------------------|
 | `SHEET_ID`   | spreadsheet id                                                | the 303 sheet      |
-| `SHEET_GIDS` | comma-separated tab gids to fetch                             | the 12 monthly tabs |
-| `SHEET_YEAR` | year to stamp on dates (**the sheet stores none** — see below) | current year      |
+| `SHEET_YEAR` | year to stamp on dates (**the sheet stores none reliably** — see below) | current year      |
 
 ### ⚠ The year problem
 
-The sheet stores month/day but **no year** (it's a rolling annual grid). The
-pipeline stamps every date with `SHEET_YEAR` (default: the current calendar
-year), and the site then hides anything before today. Consequences:
+The month/day cells are Date-typed, but their **year is unreliable** — as of
+the last check every tab's cells were stamped **2025** (the year the grid was
+authored), regardless of which season the tab covers. So the pipeline ignores
+the embedded year and stamps every date with `SHEET_YEAR` (default: the current
+calendar year); the site then hides anything before today. Consequences:
 
-- If the maintainer's data is actually for a *different* year, set `SHEET_YEAR`.
+- If the maintainer's data is actually for a specific year, set `SHEET_YEAR`.
 - Late in the year the calendar thins out (only the remaining months are
-  "upcoming") until the maintainer rolls the sheet forward. If the sheet ever
-  splits into per-year tabs, register the new gids in `GID_MONTHS`
-  (`parse-matrix.mjs`) or pass `SHEET_GIDS`.
+  "upcoming") until the maintainer rolls the sheet forward.
 
-### Tab → month map
+### Tabs & venues
 
-Discovered gids live in `GID_MONTHS` in
-[`pipeline/parse-matrix.mjs`](pipeline/parse-matrix.mjs). A 13th tab (a short
-personal "spare tickets" list) is a different shape and is auto-skipped by the
-grid validation. Venue-name spellings resolve through an alias map in
-[`pipeline/venues.js`](pipeline/venues.js) — add new venues/spellings there to
-attach addresses and neighborhoods (unmapped venues still render, just without
-an address). In CI, `SHEET_ID`/`SHEET_GIDS`/`SHEET_YEAR` come from repo secrets/
-vars — see [`.github/workflows/build-data.yml`](.github/workflows/build-data.yml).
+Month is derived from each tab's own date column, so tab order/gids don't
+matter. A 13th tab (a short personal "spare tickets" list) is a different shape
+and is auto-skipped by the grid validation. Venue-name spellings resolve through
+an alias map in [`pipeline/venues.js`](pipeline/venues.js) — add new venues/
+spellings there to attach addresses and neighborhoods (unmapped venues still
+render, just without an address). In CI, `SHEET_ID`/`SHEET_YEAR` come from repo
+variables — see [`.github/workflows/build-data.yml`](.github/workflows/build-data.yml).
 
 ### Fail-safe
 

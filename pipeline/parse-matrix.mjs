@@ -14,6 +14,7 @@
 // Time }) so they flow through the SAME normalizer the row format would use.
 
 import { parseCsvGrid } from './csv.mjs';
+import { classifyTicketUrl } from './xlsx.mjs';
 
 // Discovered tab layout (gid -> month). New tabs the maintainer adds must be
 // registered here (or passed via SHEET_GIDS). Non-matrix tabs are skipped by
@@ -112,37 +113,50 @@ function to24h(h, m, ap) {
 	return `${String(hh).padStart(2, '0')}:${String(mm).padStart(2, '0')}`;
 }
 
-/** Parse "5/1" -> { m:5, d:1 }, or null. */
+/**
+ * Parse a date cell into { m, d } (year ignored — the pipeline stamps its own).
+ * Handles both the CSV text form "5/1" and the XLSX Date-typed form, which
+ * ExcelJS surfaces as an ISO string like "2025-05-01T00:00:00.000Z".
+ */
 export function parseMonthDay(cell) {
-	const m = String(cell || '').trim().match(/^(\d{1,2})\/(\d{1,2})$/);
-	if (!m) return null;
-	const mo = +m[1];
-	const d = +m[2];
+	const s = String(cell || '').trim();
+	let mo, d;
+	let m = s.match(/^(\d{1,2})\/(\d{1,2})(?:\/\d{2,4})?$/);
+	if (m) {
+		mo = +m[1];
+		d = +m[2];
+	} else if ((m = s.match(/^(\d{4})-(\d{2})-(\d{2})/))) {
+		mo = +m[2];
+		d = +m[3];
+	} else return null;
 	if (mo < 1 || mo > 12 || d < 1 || d > 31) return null;
 	return { m: mo, d };
 }
 
 /**
- * Convert one monthly-tab CSV into flat row objects for the normalizer.
- * @param {string} csv
+ * Convert one monthly-tab GRID into flat row objects for the normalizer.
+ * `linkAt(r, c)` returns the ticket hyperlink for a cell (from the XLSX), or
+ * null — for a multi-show cell every show inherits the cell's single link.
+ * @param {string[][]} grid
  * @param {number} year  year to stamp (the sheet stores none)
- * @returns {{ rows: object[], stats: { cells:number, shows:number, venues:number } }}
+ * @param {(r:number,c:number)=>string|null} [linkAt]
+ * @returns {{ rows: object[], stats: { cells:number, shows:number, venues:number, linked:number }, skip?: boolean }}
  */
-export function matrixToRows(csv, year) {
-	const grid = parseCsvGrid(csv);
+export function gridToRows(grid, year, linkAt = () => null) {
 	const rows = [];
-	if (grid.length < 2) return { rows, stats: { cells: 0, shows: 0, venues: 0 } };
+	if (grid.length < 2) return { rows, stats: { cells: 0, shows: 0, venues: 0, linked: 0 } };
 
 	const header = grid[0];
 	const venues = header.map(stripTicketTag);
-	// Validate this really is a matrix tab: col0 header blank-ish, some venues,
-	// and at least one data row whose first cell is a date.
+	// Validate this really is a matrix tab: some venues, and at least one data
+	// row whose first cell is a date. (The "My Shows" tab fails this → skipped.)
 	const hasDates = grid.slice(1).some((r) => parseMonthDay(r[0]));
 	if (!hasDates || venues.filter(Boolean).length < 3) {
-		return { rows, stats: { cells: 0, shows: 0, venues: 0 }, skip: true };
+		return { rows, stats: { cells: 0, shows: 0, venues: 0, linked: 0 }, skip: true };
 	}
 
 	let cells = 0;
+	let linked = 0;
 	for (let r = 1; r < grid.length; r++) {
 		const rec = grid[r];
 		const md = parseMonthDay(rec[0]);
@@ -153,6 +167,8 @@ export function matrixToRows(csv, year) {
 			const venue = venues[c];
 			if (!cell || !venue) continue;
 			cells++;
+			const ticket = classifyTicketUrl(linkAt(r, c));
+			if (ticket) linked++;
 			for (const showStr of splitShowsInCell(cell)) {
 				const { acts, time } = parseShowCell(showStr);
 				if (!acts.length) continue;
@@ -161,10 +177,20 @@ export function matrixToRows(csv, year) {
 					Artist: acts[0],
 					Support: acts.slice(1).join(', '),
 					Venue: venue,
-					Time: time
+					Time: time,
+					Tickets: ticket ? ticket.url : '',
+					TicketPlatform: ticket ? ticket.platform : ''
 				});
 			}
 		}
 	}
-	return { rows, stats: { cells, shows: rows.length, venues: venues.filter(Boolean).length } };
+	return {
+		rows,
+		stats: { cells, shows: rows.length, venues: venues.filter(Boolean).length, linked }
+	};
+}
+
+/** CSV convenience wrapper (no hyperlinks available in CSV). */
+export function matrixToRows(csv, year) {
+	return gridToRows(parseCsvGrid(csv), year);
 }

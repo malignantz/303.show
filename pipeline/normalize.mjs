@@ -168,6 +168,7 @@ export function normalizeRow(row, now = new Date()) {
 	const doorTime = parseTime(get('doors', 'door', 'door time'));
 	const price = parsePrice(get('price', 'cost', 'tickets price', 'ticket price', '$'));
 	const ticketUrl = firstUrl(get('tickets', 'ticket', 'link', 'url', 'ticket link'));
+	const ticketPlatform = get('ticketplatform', 'platform');
 	const age = get('age', 'ages', 'age restriction');
 	const notesRaw = get('notes', 'note', 'info');
 	const flags = `${artist} ${notesRaw} ${get('status')}`.toLowerCase();
@@ -184,6 +185,7 @@ export function normalizeRow(row, now = new Date()) {
 		...(price.text ? { price } : {}),
 		...(age ? { age } : {}),
 		...(ticketUrl ? { ticketUrl } : {}),
+		...(ticketUrl && ticketPlatform ? { ticketPlatform } : {}),
 		...(notesRaw ? { notes: notesRaw } : {}),
 		soldOut: /sold\s?out/.test(flags),
 		cancelled: /cancel/.test(flags),

@@ -84,9 +84,11 @@
 
 	<div class="cta">
 		{#if show.ticketUrl && !show.cancelled}
-			<a class="btn btn--primary" href={show.ticketUrl} target="_blank" rel="noopener nofollow"
-				>{show.soldOut ? 'Ticket info' : 'Get tickets'} ↗</a
-			>
+			<a class="btn btn--primary" href={show.ticketUrl} target="_blank" rel="noopener nofollow">
+				{show.soldOut ? 'Ticket info' : 'Get tickets'}{#if show.ticketPlatform}<span class="plat"
+						>{show.ticketPlatform}</span
+					>{/if} ↗
+			</a>
 		{/if}
 		<a class="btn" href={mapUrl(show.venue)} target="_blank" rel="noopener">Map ↗</a>
 		<a class="btn" href={icsFor(show)} download={`${show.slug}.ics`}>Add to calendar</a>
@@ -217,6 +219,13 @@
 	.btn--primary:hover {
 		filter: brightness(1.08);
 		border-color: var(--acid-red);
+	}
+	.plat {
+		margin-left: 0.45rem;
+		padding-left: 0.45rem;
+		border-left: 1px solid rgba(255, 255, 255, 0.35);
+		font-weight: 400;
+		opacity: 0.9;
 	}
 
 	.also {

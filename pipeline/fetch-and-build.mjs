@@ -17,10 +17,10 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { parseCsvObjects } from './csv.mjs';
 import { normalizeRow } from './normalize.mjs';
 import { mockRows } from './mock.mjs';
-import { matrixToRows, MONTH_GIDS } from './parse-matrix.mjs';
+import { gridToRows } from './parse-matrix.mjs';
+import { readWorkbook } from './xlsx.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
@@ -108,44 +108,47 @@ async function main() {
 
 	fs.writeFileSync(OUT_JSON, JSON.stringify(payload, null, '\t') + '\n');
 	fs.writeFileSync(LIB_COPY, JSON.stringify(payload) + '\n'); // compact copy the app imports
+	if (source === 'sheet') writeDebugCsv(merged);
 
 	const added = merged.filter((s) => s.addedAt === today).length;
-	console.log(`✓ ${merged.length} shows written (year ${year}, ${added} new today), ${dropped} past dropped, ${skipped.length} skipped`);
+	const withTix = merged.filter((s) => s.ticketUrl).length;
+	console.log(
+		`✓ ${merged.length} shows written (year ${year}, ${added} new today, ${withTix} with tickets), ${dropped} past dropped, ${skipped.length} skipped`
+	);
 	if (skipped.length) {
 		for (const s of skipped.slice(0, 15)) console.warn(`  ⟂ skipped [${s.artist}]: ${s.reason}`);
 		if (skipped.length > 15) console.warn(`  … and ${skipped.length - 15} more`);
 	}
 }
 
-/** Fetch every monthly tab, flatten the grids, return combined row objects. */
+/**
+ * Fetch the whole workbook as XLSX (one request = every tab, WITH the per-cell
+ * ticket hyperlinks the CSV export drops), flatten each monthly grid to rows.
+ */
 async function fetchSheetRows(year) {
 	const id = process.env.SHEET_ID || DEFAULT_SHEET_ID;
-	const gids = (process.env.SHEET_GIDS || MONTH_GIDS.join(',')).split(',').map((g) => g.trim()).filter(Boolean);
-	fs.mkdirSync(RAW_DIR, { recursive: true });
+	const url = `https://docs.google.com/spreadsheets/d/${id}/export?format=xlsx`;
+	const buf = await fetchBuffer(url);
+	console.log(`• fetched workbook (${(buf.byteLength / 1024).toFixed(0)} KB)`);
 
+	const sheets = await readWorkbook(buf);
 	const allRows = [];
 	let ok = 0;
-	for (const gid of gids) {
-		const url = `https://docs.google.com/spreadsheets/d/${id}/export?format=csv&gid=${gid}`;
-		let csv;
-		try {
-			csv = await fetchText(url);
-		} catch (err) {
-			console.warn(`  ! tab ${gid}: fetch failed (${err.message}) — skipping`);
-			continue;
-		}
-		fs.writeFileSync(path.join(RAW_DIR, `${gid}.csv`), csv); // debug artifact per tab
-		const { rows, stats, skip } = matrixToRows(csv, year);
+	let linkedTotal = 0;
+	for (const sheet of sheets) {
+		const { rows, stats, skip } = gridToRows(sheet.grid, year, sheet.linkAt);
 		if (skip) {
-			console.log(`  · tab ${gid}: not a monthly grid — skipped`);
+			console.log(`  · "${sheet.name}": not a monthly grid — skipped`);
 			continue;
 		}
 		ok++;
-		console.log(`  · tab ${gid}: ${stats.shows} shows from ${stats.cells} cells / ${stats.venues} venues`);
+		linkedTotal += stats.linked;
+		const pct = stats.cells ? Math.round((stats.linked / stats.cells) * 100) : 0;
+		console.log(`  · "${sheet.name}": ${stats.shows} shows / ${stats.venues} venues (${pct}% ticket-linked)`);
 		allRows.push(...rows);
 	}
 	if (ok === 0) throw new Error('no monthly tabs parsed — refusing to overwrite known-good data.');
-	console.log(`• fetched ${ok}/${gids.length} tabs → ${allRows.length} raw rows`);
+	console.log(`• ${ok} tabs → ${allRows.length} raw rows, ${linkedTotal} with ticket links`);
 	return allRows;
 }
 
@@ -168,10 +171,26 @@ function readPrior() {
 	}
 }
 
-async function fetchText(url) {
+async function fetchBuffer(url) {
 	const res = await fetch(url, { redirect: 'follow' });
 	if (!res.ok) throw new Error(`${res.status} ${res.statusText}`);
-	return await res.text();
+	return Buffer.from(await res.arrayBuffer());
+}
+
+/** A flat, diffable debug artifact of exactly what we parsed. */
+function writeDebugCsv(shows) {
+	fs.mkdirSync(RAW_DIR, { recursive: true });
+	const esc = (v) => {
+		const s = String(v ?? '');
+		return /[",\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
+	};
+	const header = 'date,time,artist,support,venue,city,platform,ticketUrl';
+	const lines = shows.map((s) =>
+		[s.date, s.time || '', s.artist, s.support.join(' | '), s.venue.name, s.venue.city || '', s.ticketPlatform || '', s.ticketUrl || '']
+			.map(esc)
+			.join(',')
+	);
+	fs.writeFileSync(path.join(RAW_DIR, 'parsed.csv'), header + '\n' + lines.join('\n') + '\n');
 }
 
 function isoDate(d) {
@@ -190,5 +209,3 @@ function seedAddedAt(show, source, now) {
 	d.setDate(d.getDate() - n);
 	return isoDate(d);
 }
-
-export { matrixToRows };

@@ -219,19 +219,17 @@ this band?") and unlocks a genre filter we can't fake from the sheet.
   rate limits with light throttling. Persist an `artist-cache.json` so daily
   rebuilds only query genuinely new names.
 
-### 8b. Original ticket links — we're already throwing away the signal
-The sheet has no per-show URLs, **but every venue header encodes its ticketing
-platform** — `Red Rocks (AXS)`, `The Fillmore (Ticketmaster)`,
-`Summit Music Hall (Ticketmaster)`. The parser currently *strips and discards*
-that tag. Step one is to **capture it** as `venue.ticketPlatform` instead.
-
-- With platform known, render a **"Find tickets on AXS / Ticketmaster"** button
-  that deep-searches the platform for the artist (best-effort search URL, or the
-  venue's own calendar page when we have it). Honest framing: it's a search, not
-  a guaranteed exact-show deep link — we don't invent a URL we can't verify.
-- Where the venue has an official calendar/tickets URL, store it on the venue
-  record (`venue.ticketsUrl`) and prefer that.
-- This is a near-free win (the data's already in hand) and should land first.
+### 8b. Original ticket links — DONE (better than planned) ✓
+We assumed the sheet had no per-show URLs. It does — **every cell is a hyperlink
+to that show's exact ticket page.** The CSV export drops them; the **XLSX export
+preserves them**, so the pipeline now downloads the workbook as XLSX
+([`pipeline/xlsx.mjs`](../pipeline/xlsx.mjs)), reads the per-cell hyperlink,
+classifies the platform from the host, and stores `ticketUrl` + `ticketPlatform`
+on the show. **~96% of shows carry a real deep link** (AXS 33%, Etix 22%,
+Ticketmaster 18%, then HoldMyTicket / DICE / TicketWeb / Meow Wolf / Tixr /
+VenuePilot / Eventbrite / venue-direct). The show page renders a
+**"Get tickets · AXS ↗"** button — the real URL, not a search. These are exact,
+verified links, so no honesty caveat needed.
 
 ### 8c. CashOrTrade — face-value resale, made for this scene
 Denver is a jam/Red-Rocks town; **face-value fan-to-fan resale is culturally
@@ -269,12 +267,12 @@ Just Added (git diff), `/weekend`, RSS, `.ics` export, OG poster cards,
 PWA offline + install prompt, sequencer easter egg, "Pick for me."
 
 **Phase 3 — enrichment & links (next up)**
-In priority order:
-1. **Capture ticket platform** from venue headers (§8b) — near-free, land first.
-2. **CashOrTrade links** on every show, prominent on sold-out (§8c).
-3. **Spotify enrichment** → previews + `genres` (§8a), then the **genre filter**.
-4. Self-host font subsets; generate **OG poster images** (the sharing hook).
-5. Email/RSS digest; push for starred venues; a public "changes" page (the git
+- ✓ **Real ticket deep-links** (§8b) — done, via XLSX hyperlinks (~96% coverage).
+In priority order for what's left:
+1. **CashOrTrade links** on every show, prominent on sold-out (§8c).
+2. **Spotify enrichment** → previews + `genres` (§8a), then the **genre filter**.
+3. Self-host font subsets; generate **OG poster images** (the sharing hook).
+4. Email/RSS digest; push for starred venues; a public "changes" page (the git
    log as scene news).
 
 **Daily freshness — how it actually works (built in Phase 1)**
