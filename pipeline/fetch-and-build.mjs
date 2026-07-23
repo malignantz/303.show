@@ -44,7 +44,16 @@ async function main() {
 	fs.mkdirSync(DATA_DIR, { recursive: true });
 	fs.mkdirSync(path.dirname(LIB_COPY), { recursive: true });
 	const now = new Date();
-	const year = process.env.SHEET_YEAR ? parseInt(process.env.SHEET_YEAR, 10) : now.getFullYear();
+
+	// The sheet's embedded years are unreliable (all stamped 2025). Assign years
+	// by month for a rolling forward calendar: any month from the current month
+	// onward is this year; earlier months roll to next year (so mid-2026, Jul-Dec
+	// = 2026 and Jan-Jun = 2027). SHEET_YEAR forces a single year for every month.
+	const forcedYear = process.env.SHEET_YEAR ? parseInt(process.env.SHEET_YEAR, 10) : null;
+	const curMonth = now.getMonth() + 1;
+	const curYear = now.getFullYear();
+	const yearFor = (month) => forcedYear ?? (month >= curMonth ? curYear : curYear + 1);
+	const yearDesc = forcedYear ? String(forcedYear) : `rolling (${curYear}/${curYear + 1})`;
 
 	let rows;
 	let source;
@@ -54,7 +63,7 @@ async function main() {
 		source = 'mock';
 	} else {
 		source = 'sheet';
-		rows = await fetchSheetRows(year);
+		rows = await fetchSheetRows(yearFor);
 	}
 
 	const shows = [];
@@ -101,7 +110,7 @@ async function main() {
 	const payload = {
 		generatedAt: now.toISOString(),
 		source,
-		year,
+		year: yearDesc,
 		count: merged.length,
 		shows: merged
 	};
@@ -113,7 +122,7 @@ async function main() {
 	const added = merged.filter((s) => s.addedAt === today).length;
 	const withTix = merged.filter((s) => s.ticketUrl).length;
 	console.log(
-		`✓ ${merged.length} shows written (year ${year}, ${added} new today, ${withTix} with tickets), ${dropped} past dropped, ${skipped.length} skipped`
+		`✓ ${merged.length} shows written (year ${yearDesc}, ${added} new today, ${withTix} with tickets), ${dropped} past dropped, ${skipped.length} skipped`
 	);
 	if (skipped.length) {
 		for (const s of skipped.slice(0, 15)) console.warn(`  ⟂ skipped [${s.artist}]: ${s.reason}`);
@@ -125,7 +134,7 @@ async function main() {
  * Fetch the whole workbook as XLSX (one request = every tab, WITH the per-cell
  * ticket hyperlinks the CSV export drops), flatten each monthly grid to rows.
  */
-async function fetchSheetRows(year) {
+async function fetchSheetRows(yearFor) {
 	const id = process.env.SHEET_ID || DEFAULT_SHEET_ID;
 	const url = `https://docs.google.com/spreadsheets/d/${id}/export?format=xlsx`;
 	const buf = await fetchBuffer(url);
@@ -136,7 +145,7 @@ async function fetchSheetRows(year) {
 	let ok = 0;
 	let linkedTotal = 0;
 	for (const sheet of sheets) {
-		const { rows, stats, skip } = gridToRows(sheet.grid, year, sheet.linkAt);
+		const { rows, stats, skip } = gridToRows(sheet.grid, yearFor, sheet.linkAt);
 		if (skip) {
 			console.log(`  · "${sheet.name}": not a monthly grid — skipped`);
 			continue;

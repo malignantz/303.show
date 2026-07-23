@@ -135,14 +135,18 @@ export function parseMonthDay(cell) {
 
 /**
  * Convert one monthly-tab GRID into flat row objects for the normalizer.
- * `linkAt(r, c)` returns the ticket hyperlink for a cell (from the XLSX), or
- * null — for a multi-show cell every show inherits the cell's single link.
+ * `yearFor(month)` resolves the year for a given month (the sheet's own years
+ * are unreliable) — for a rolling calendar this maps "month >= now" to the
+ * current year and earlier months to next year. `linkAt(r, c)` returns the
+ * ticket hyperlink for a cell (from the XLSX), or null — for a multi-show cell
+ * every show inherits the cell's single link.
  * @param {string[][]} grid
- * @param {number} year  year to stamp (the sheet stores none)
+ * @param {number|((month:number)=>number)} yearFor
  * @param {(r:number,c:number)=>string|null} [linkAt]
  * @returns {{ rows: object[], stats: { cells:number, shows:number, venues:number, linked:number }, skip?: boolean }}
  */
-export function gridToRows(grid, year, linkAt = () => null) {
+export function gridToRows(grid, yearFor, linkAt = () => null) {
+	const resolveYr = typeof yearFor === 'function' ? yearFor : () => yearFor;
 	const rows = [];
 	if (grid.length < 2) return { rows, stats: { cells: 0, shows: 0, venues: 0, linked: 0 } };
 
@@ -161,7 +165,7 @@ export function gridToRows(grid, year, linkAt = () => null) {
 		const rec = grid[r];
 		const md = parseMonthDay(rec[0]);
 		if (!md) continue;
-		const dateISO = `${year}-${String(md.m).padStart(2, '0')}-${String(md.d).padStart(2, '0')}`;
+		const dateISO = `${resolveYr(md.m)}-${String(md.m).padStart(2, '0')}-${String(md.d).padStart(2, '0')}`;
 		for (let c = 1; c < rec.length; c++) {
 			const cell = (rec[c] || '').trim();
 			const venue = venues[c];

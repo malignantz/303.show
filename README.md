@@ -58,17 +58,20 @@ Env knobs (all optional):
 | `SHEET_ID`   | spreadsheet id                                                | the 303 sheet      |
 | `SHEET_YEAR` | year to stamp on dates (**the sheet stores none reliably** — see below) | current year      |
 
-### ⚠ The year problem
+### The year model
 
-The month/day cells are Date-typed, but their **year is unreliable** — as of
-the last check every tab's cells were stamped **2025** (the year the grid was
-authored), regardless of which season the tab covers. So the pipeline ignores
-the embedded year and stamps every date with `SHEET_YEAR` (default: the current
-calendar year); the site then hides anything before today. Consequences:
+The month/day cells are Date-typed, but their **year is unreliable** — as of the
+last check every tab's cells were stamped **2025** regardless of season. So the
+pipeline ignores the embedded year and assigns one **by month, as a rolling
+forward calendar**: any month from the current month onward is this year, and
+earlier months roll to next year. Mid-2026 that yields Jul–Dec 2026 + Jan–Jun
+2027 — a continuous 12-month window. The site then hides anything before today,
+so past/future is driven entirely by the resolved event date.
 
-- If the maintainer's data is actually for a specific year, set `SHEET_YEAR`.
-- Late in the year the calendar thins out (only the remaining months are
-  "upcoming") until the maintainer rolls the sheet forward.
+- `SHEET_YEAR=2026` forces every month to a single fixed year instead (useful if
+  the sheet is ever pinned to one specific season).
+- Refinement worth doing later: the ticket links are exact event URLs, so a
+  spot-check of a few per tab could confirm/correct the assumed year.
 
 ### Tabs & venues
 
