@@ -1,5 +1,5 @@
 <script>
-	import { fmtTime, mapUrl, icsFor, dayLabel, parseISO } from '$lib/shows.js';
+	import { fmtTime, mapUrl, icsFor, dayLabel, parseISO, cashOrTradeUrl } from '$lib/shows.js';
 	import StarButton from '$lib/components/StarButton.svelte';
 
 	let { data } = $props();
@@ -94,6 +94,19 @@
 		<a class="btn" href={icsFor(show)} download={`${show.slug}.ics`}>Add to calendar</a>
 		<button class="btn" onclick={share}>Share</button>
 	</div>
+
+	{#if !show.cancelled}
+		<aside class="resale" class:hot={show.soldOut}>
+			<span class="resale-mark">◑</span>
+			<p>
+				{#if show.soldOut}<strong>Sold out?</strong> {/if}Buy or sell at <strong>face value</strong>
+				— no scalpers — on
+				<a href={cashOrTradeUrl(show.artist)} target="_blank" rel="noopener nofollow"
+					>CashorTrade →</a
+				>
+			</p>
+		</aside>
+	{/if}
 
 	{#if data.alsoAtVenue.length}
 		<section class="also">
@@ -226,6 +239,44 @@
 		border-left: 1px solid rgba(255, 255, 255, 0.35);
 		font-weight: 400;
 		opacity: 0.9;
+	}
+
+	.resale {
+		display: flex;
+		align-items: baseline;
+		gap: 0.55rem;
+		margin: -0.6rem 0 2rem;
+		padding: 0.7rem 0.85rem;
+		border: 1px solid var(--line);
+		border-radius: 5px;
+		background: var(--surface);
+	}
+	.resale.hot {
+		border-color: color-mix(in srgb, var(--acid-amber) 50%, transparent);
+		background: color-mix(in srgb, var(--acid-amber) 8%, var(--surface));
+	}
+	.resale-mark {
+		color: var(--acid-amber);
+		font-size: 1rem;
+		line-height: 1;
+	}
+	.resale p {
+		font-size: 0.82rem;
+		line-height: 1.5;
+		color: var(--ink-dim);
+	}
+	.resale strong {
+		color: var(--ink);
+		font-weight: 700;
+	}
+	.resale a {
+		color: var(--acid-amber);
+		font-weight: 700;
+		white-space: nowrap;
+	}
+	.resale a:hover {
+		text-decoration: underline;
+		text-underline-offset: 2px;
 	}
 
 	.also {

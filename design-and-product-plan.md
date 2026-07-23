@@ -231,7 +231,17 @@ VenuePilot / Eventbrite / venue-direct). The show page renders a
 **"Get tickets · AXS ↗"** button — the real URL, not a search. These are exact,
 verified links, so no honesty caveat needed.
 
-### 8c. CashOrTrade — face-value resale, made for this scene
+### 8c. CashOrTrade — face-value resale, made for this scene — DONE ✓
+Implemented as a modest, on-brand block below the ticket CTA on every show page:
+"Buy or sell at **face value** — no scalpers — on CashorTrade →", linking to
+`cashortrade.org/search?q=<artist>` (their SPA soft-lands any query, so it works
+for touring acts and unknown locals alike). The block gets an amber highlight
+when a show is flagged sold out. The anti-scalper framing is itself a trust play.
+Notes for later: sold-out detection from the matrix is unreliable, so the
+highlight rarely triggers; and if their search param ever changes, it's one
+helper (`cashOrTradeUrl` in `src/lib/shows.js`).
+
+Original rationale:
 Denver is a jam/Red-Rocks town; **face-value fan-to-fan resale is culturally
 on-brand** in a way StubHub never is, and CashOrTrade now has a Ticketmaster
 face-value integration (Apr 2026), so verified transfers work.
@@ -268,10 +278,12 @@ PWA offline + install prompt, sequencer easter egg, "Pick for me."
 
 **Phase 3 — enrichment & links (next up)**
 - ✓ **Real ticket deep-links** (§8b) — done, via XLSX hyperlinks (~96% coverage).
+- ✓ **CashOrTrade** face-value resale link on every show (§8c).
 In priority order for what's left:
-1. **CashOrTrade links** on every show, prominent on sold-out (§8c).
-2. **Spotify enrichment** → previews + `genres` (§8a), then the **genre filter**.
-3. Self-host font subsets; generate **OG poster images** (the sharing hook).
+1. **Spotify enrichment** → previews + `genres` (§8a), then the **genre filter**.
+2. Self-host font subsets; generate **OG poster images** (the sharing hook).
+3. Split `shows.json` by month + lazy-load (the ~233KB-gz data payload is the
+   current perf watch-item now that the calendar spans 12 months).
 4. Email/RSS digest; push for starred venues; a public "changes" page (the git
    log as scene news).
 

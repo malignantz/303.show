@@ -96,6 +96,11 @@ export function fmtTime(t) {
 	return m ? `${h12}:${String(m).padStart(2, '0')}${ap}` : `${h12}${ap}`;
 }
 
+/** CashOrTrade face-value resale search for an artist (works for any name). */
+export function cashOrTradeUrl(artist) {
+	return `https://cashortrade.org/search?q=${encodeURIComponent(artist)}`;
+}
+
 /** Google Maps search URL for a venue. */
 export function mapUrl(venue) {
 	const q = encodeURIComponent(venue.address || `${venue.name}, ${venue.city || 'Denver'}, CO`);
