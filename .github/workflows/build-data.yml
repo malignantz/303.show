@@ -1,0 +1,52 @@
+name: Refresh show data
+
+# Rebuilds data/shows.json from the source Google Sheet once a day, plus a
+# manual trigger. Commits the JSON (and raw CSV) only when something changed —
+# that commit is what triggers the site rebuild/deploy. If parsing fails, the
+# job exits non-zero and commits NOTHING, so the live site keeps serving the
+# last known-good data (fail-safe contract from the plan).
+
+on:
+  schedule:
+    - cron: '17 13 * * *' # 13:17 UTC ≈ 7:17am Denver — after the maintainer's overnight edits
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: refresh-data
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Build show data from the sheet
+        env:
+          # SHEET_ID has a sensible default baked into the pipeline; override via
+          # a repo variable if the sheet ever moves. SHEET_YEAR defaults to the
+          # current year — set it as a repo variable if the data is for another.
+          SHEET_ID: ${{ vars.SHEET_ID }}
+          SHEET_GIDS: ${{ vars.SHEET_GIDS }}
+          SHEET_YEAR: ${{ vars.SHEET_YEAR }}
+        run: node pipeline/fetch-and-build.mjs
+
+      - name: Commit if changed
+        run: |
+          git config user.name  "303-show-bot"
+          git config user.email "bot@303.show"
+          git add data/shows.json data/raw src/lib/data/shows.json
+          if git diff --cached --quiet; then
+            echo "No changes — nothing to commit."
+          else
+            COUNT=$(node -e "console.log(require('./data/shows.json').count)")
+            git commit -m "data: refresh listings (${COUNT} shows)"
+            git push
+          fi

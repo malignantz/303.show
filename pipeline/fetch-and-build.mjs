@@ -1,0 +1,194 @@
+// Orchestrator: fetch the sheet's monthly tabs (or mock) -> normalize ->
+// compute "just added" against the previous committed JSON -> write shows.json.
+//
+// Fail-safe contract (context doc): if validation fails, exit non-zero and do
+// NOT overwrite shows.json. The site keeps serving yesterday's known-good data.
+//
+// The real sheet is one Google Spreadsheet with twelve monthly GRID tabs
+// (venues × days). We fetch each tab's CSV, flatten it to rows, then normalize.
+//
+// Env:
+//   SHEET_ID        spreadsheet id (default: the known 303 sheet)
+//   SHEET_GIDS      comma-separated tab gids to fetch (default: the 12 months)
+//   SHEET_YEAR      year to stamp on dates (the sheet stores none; default: now)
+// Flags:
+//   --mock          ignore the sheet, generate realistic Denver data
+
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { parseCsvObjects } from './csv.mjs';
+import { normalizeRow } from './normalize.mjs';
+import { mockRows } from './mock.mjs';
+import { matrixToRows, MONTH_GIDS } from './parse-matrix.mjs';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const ROOT = path.resolve(__dirname, '..');
+const DATA_DIR = path.join(ROOT, 'data');
+const OUT_JSON = path.join(DATA_DIR, 'shows.json');
+const RAW_DIR = path.join(DATA_DIR, 'raw');
+const LIB_COPY = path.join(ROOT, 'src', 'lib', 'data', 'shows.json');
+
+const DEFAULT_SHEET_ID = '19Dq2O2ee7raAis5rwkqYr22DVgIGlB7ylrKQNkka-pk';
+const USE_MOCK = process.argv.includes('--mock');
+
+// Run only when invoked directly (not when imported for its exports/tests).
+if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+	main().catch((err) => {
+		console.error('✗ build failed:', err.message);
+		process.exit(1);
+	});
+}
+
+async function main() {
+	fs.mkdirSync(DATA_DIR, { recursive: true });
+	fs.mkdirSync(path.dirname(LIB_COPY), { recursive: true });
+	const now = new Date();
+	const year = process.env.SHEET_YEAR ? parseInt(process.env.SHEET_YEAR, 10) : now.getFullYear();
+
+	let rows;
+	let source;
+	if (USE_MOCK) {
+		console.log('• source: MOCK (dev data)');
+		rows = mockRows(now);
+		source = 'mock';
+	} else {
+		source = 'sheet';
+		rows = await fetchSheetRows(year);
+	}
+
+	const shows = [];
+	const skipped = [];
+	for (const row of rows) {
+		const res = normalizeRow(row, now);
+		if (res.ok) shows.push(res.show);
+		else skipped.push({ reason: res.reason, artist: row.Artist || row.artist || '?' });
+	}
+
+	// De-dupe by id (same artist+venue+date typed twice); keep the richer record.
+	const byId = new Map();
+	for (const s of shows) {
+		const prev = byId.get(s.id);
+		if (!prev || score(s) > score(prev)) byId.set(s.id, s);
+	}
+	let merged = [...byId.values()].sort(cmp);
+
+	if (source === 'sheet' && merged.length === 0) {
+		throw new Error('0 valid shows parsed from the sheet — refusing to overwrite known-good data.');
+	}
+
+	// Ship only what the site can use: today onward (with a 1-day grace so a show
+	// doesn't vanish the instant midnight passes). Past months stay in data/raw
+	// for debugging but never bloat the client bundle or the prerender count.
+	const parsedTotal = merged.length;
+	const cutoff = isoDate(new Date(now.getTime() - 24 * 3600 * 1000));
+	merged = merged.filter((s) => s.date >= cutoff);
+	const dropped = parsedTotal - merged.length;
+
+	// "Just added": carry addedAt forward; seed the first-ever build so the whole
+	// calendar isn't flagged NEW (real: backdate; mock: spread for the demo).
+	const prior = readPrior();
+	const priorAddedAt = new Map(prior.map((s) => [s.id, s.addedAt]));
+	const today = isoDate(now);
+	const isSeed = prior.length === 0;
+	for (const s of merged) {
+		const carried = priorAddedAt.get(s.id);
+		if (carried) s.addedAt = carried;
+		else if (!isSeed) s.addedAt = today;
+		else s.addedAt = seedAddedAt(s, source, now);
+	}
+
+	const payload = {
+		generatedAt: now.toISOString(),
+		source,
+		year,
+		count: merged.length,
+		shows: merged
+	};
+
+	fs.writeFileSync(OUT_JSON, JSON.stringify(payload, null, '\t') + '\n');
+	fs.writeFileSync(LIB_COPY, JSON.stringify(payload) + '\n'); // compact copy the app imports
+
+	const added = merged.filter((s) => s.addedAt === today).length;
+	console.log(`✓ ${merged.length} shows written (year ${year}, ${added} new today), ${dropped} past dropped, ${skipped.length} skipped`);
+	if (skipped.length) {
+		for (const s of skipped.slice(0, 15)) console.warn(`  ⟂ skipped [${s.artist}]: ${s.reason}`);
+		if (skipped.length > 15) console.warn(`  … and ${skipped.length - 15} more`);
+	}
+}
+
+/** Fetch every monthly tab, flatten the grids, return combined row objects. */
+async function fetchSheetRows(year) {
+	const id = process.env.SHEET_ID || DEFAULT_SHEET_ID;
+	const gids = (process.env.SHEET_GIDS || MONTH_GIDS.join(',')).split(',').map((g) => g.trim()).filter(Boolean);
+	fs.mkdirSync(RAW_DIR, { recursive: true });
+
+	const allRows = [];
+	let ok = 0;
+	for (const gid of gids) {
+		const url = `https://docs.google.com/spreadsheets/d/${id}/export?format=csv&gid=${gid}`;
+		let csv;
+		try {
+			csv = await fetchText(url);
+		} catch (err) {
+			console.warn(`  ! tab ${gid}: fetch failed (${err.message}) — skipping`);
+			continue;
+		}
+		fs.writeFileSync(path.join(RAW_DIR, `${gid}.csv`), csv); // debug artifact per tab
+		const { rows, stats, skip } = matrixToRows(csv, year);
+		if (skip) {
+			console.log(`  · tab ${gid}: not a monthly grid — skipped`);
+			continue;
+		}
+		ok++;
+		console.log(`  · tab ${gid}: ${stats.shows} shows from ${stats.cells} cells / ${stats.venues} venues`);
+		allRows.push(...rows);
+	}
+	if (ok === 0) throw new Error('no monthly tabs parsed — refusing to overwrite known-good data.');
+	console.log(`• fetched ${ok}/${gids.length} tabs → ${allRows.length} raw rows`);
+	return allRows;
+}
+
+function score(s) {
+	return (s.time ? 1 : 0) + (s.price ? 1 : 0) + (s.ticketUrl ? 1 : 0) + s.support.length;
+}
+
+function cmp(a, b) {
+	if (a.date !== b.date) return a.date < b.date ? -1 : 1;
+	const at = a.time || '99:99', bt = b.time || '99:99';
+	if (at !== bt) return at < bt ? -1 : 1;
+	return a.artist.localeCompare(b.artist);
+}
+
+function readPrior() {
+	try {
+		return JSON.parse(fs.readFileSync(OUT_JSON, 'utf8')).shows || [];
+	} catch {
+		return [];
+	}
+}
+
+async function fetchText(url) {
+	const res = await fetch(url, { redirect: 'follow' });
+	if (!res.ok) throw new Error(`${res.status} ${res.statusText}`);
+	return await res.text();
+}
+
+function isoDate(d) {
+	return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+}
+
+/** addedAt to assign on the first-ever build so the calendar isn't all "NEW". */
+function seedAddedAt(show, source, now) {
+	if (source !== 'mock') {
+		const d = new Date(now);
+		d.setDate(d.getDate() - 14);
+		return isoDate(d);
+	}
+	const n = parseInt(show.id.slice(0, 6), 16) % 18;
+	const d = new Date(now);
+	d.setDate(d.getDate() - n);
+	return isoDate(d);
+}
+
+export { matrixToRows };
