@@ -69,18 +69,68 @@ for (const venue of VENUES) {
 	for (const a of venue.aliases) INDEX.set(normKey(a), venue);
 }
 
+// Venues CashOrTrade actually carries. Their marketplace only has listings for
+// a limited set of rooms, so we surface the face-value resale link ONLY here —
+// linking it everywhere would send people to empty pages.
+//
+// Stored as normalized keys (see normKey), matched against either the resolved
+// canonical name or the raw sheet spelling, so a venue we don't otherwise know
+// still matches if it turns up in the sheet later.
+const CASHORTRADE_KEYS = new Set(
+	[
+		'Meow Wolf Denver | Convergence Station',
+		'Meow Wolf Denver',
+		'ReelWorks Denver',
+		'Orchid Denver',
+		'BurnDown Denver',
+		'Denver Sweet',
+		'The Savoy Denver',
+		'Rivian Denver',
+		'Denver Botanic Gardens',
+		'Lustre Pearl Denver',
+		'Riot House Denver',
+		'Sofar Sounds Denver',
+		'Denver Civic Center Park',
+		'MCA Denver at the Holiday Theater',
+		'Sculpture Park At The Denver Performing Arts Complex',
+		'Kilstrom Theatre at Denver Center for the Performing Arts',
+		'Courtyard by Marriott Rooftop – Denver Downtown West'
+	].map(normKey)
+);
+
+/** Does CashOrTrade carry this venue? */
+export function supportsCashOrTrade(...names) {
+	return names.some((n) => n && CASHORTRADE_KEYS.has(normKey(n)));
+}
+
 /**
  * Resolve a raw venue string to a canonical venue. Unknown venues are returned
  * as a minimal record (name + synthesized slug) so nothing is dropped.
  * @param {string} raw
- * @returns {{ name:string, slug:string, neighborhood?:string, city?:string, address?:string, known:boolean }}
+ * @returns {{ name:string, slug:string, neighborhood?:string, city?:string, address?:string, known:boolean, cashOrTrade?:boolean }}
  */
 export function resolveVenue(raw) {
 	const key = normKey(raw);
 	const hit = INDEX.get(key);
 	if (hit) {
-		return { name: hit.name, slug: hit.slug, neighborhood: hit.neighborhood, city: hit.city, address: hit.address, known: true };
+		const cot = supportsCashOrTrade(hit.name, raw);
+		return {
+			name: hit.name,
+			slug: hit.slug,
+			neighborhood: hit.neighborhood,
+			city: hit.city,
+			address: hit.address,
+			known: true,
+			...(cot ? { cashOrTrade: true } : {})
+		};
 	}
 	const name = String(raw || '').trim() || 'TBA';
-	return { name, slug: key ? key.replace(/\s+/g, '-') : 'tba', city: 'Denver', known: false };
+	const cot = supportsCashOrTrade(name);
+	return {
+		name,
+		slug: key ? key.replace(/\s+/g, '-') : 'tba',
+		city: 'Denver',
+		known: false,
+		...(cot ? { cashOrTrade: true } : {})
+	};
 }

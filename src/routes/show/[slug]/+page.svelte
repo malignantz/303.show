@@ -57,7 +57,10 @@
 	<a class="back mono" href="/">← all shows</a>
 
 	<header class="head">
-		<p class="when label">{dayLabel(show.date).label} · {longDate}</p>
+		<!-- Only prefix "Tonight"/"Tomorrow"; further out the weekday is already in longDate. -->
+		<p class="when label">
+			{#if dayLabel(show.date).soon}{dayLabel(show.date).label} · {/if}{longDate}
+		</p>
 		<div class="titlerow">
 			<h1>{show.artist}</h1>
 			<StarButton id={show.id} size={26} />
@@ -95,7 +98,7 @@
 		<button class="btn" onclick={share}>Share</button>
 	</div>
 
-	{#if !show.cancelled}
+	{#if !show.cancelled && show.venue.cashOrTrade && cashOrTradeUrl(show.artist)}
 		<aside class="resale" class:hot={show.soldOut}>
 			<span class="resale-mark">◑</span>
 			<p>

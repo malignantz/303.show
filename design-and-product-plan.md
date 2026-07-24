@@ -232,14 +232,28 @@ VenuePilot / Eventbrite / venue-direct). The show page renders a
 verified links, so no honesty caveat needed.
 
 ### 8c. CashOrTrade — face-value resale, made for this scene — DONE ✓
-Implemented as a modest, on-brand block below the ticket CTA on every show page:
-"Buy or sell at **face value** — no scalpers — on CashorTrade →", linking to
-`cashortrade.org/search?q=<artist>` (their SPA soft-lands any query, so it works
-for touring acts and unknown locals alike). The block gets an amber highlight
-when a show is flagged sold out. The anti-scalper framing is itself a trust play.
-Notes for later: sold-out detection from the matrix is unreliable, so the
-highlight rarely triggers; and if their search param ever changes, it's one
-helper (`cashOrTradeUrl` in `src/lib/shows.js`).
+A modest, on-brand block below the ticket CTA: "Buy or sell at **face value** —
+no scalpers — on CashorTrade →". Amber-highlighted when a show is flagged sold
+out. The anti-scalper framing is itself a trust play.
+
+- **URL scheme**: slugified artist + `-tickets`, e.g. múm →
+  `cashortrade.org/mum-tickets` (diacritics folded, `&` → "and"). One helper:
+  `cashOrTradeUrl` in `src/lib/shows.js`.
+- **Venue gate**: CashOrTrade only carries certain rooms, so the link renders
+  ONLY for venues on an allowlist (`CASHORTRADE_KEYS` in `pipeline/venues.js`,
+  surfaced as `venue.cashOrTrade`). Linking it everywhere would send people to
+  empty pages.
+
+**⚠ Open issue — the allowlist is almost certainly too narrow.** The supplied
+list is Denver-city-limits only, so of the sheet's 37 venues it matches exactly
+one — **Meow Wolf (71 of ~3,300 shows, ~2%)**. But CashOrTrade demonstrably
+carries Red Rocks (`cashortrade.org/sts9-at-red-rocks-tickets`, plus their
+Tyler Childers Red Rocks ticket drop) — it just sits in *Morrison*, not Denver.
+The same city filter would also exclude Fiddler's Green (Greenwood Village),
+Boulder Theater / Fox (Boulder), Aggie (Fort Collins), and Black Sheep / Ford
+(Colorado Springs). Adding Red Rocks alone would be the single biggest win —
+it's the highest-resale-demand room in the state. Add slugs to the allowlist as
+they're confirmed.
 
 Original rationale:
 Denver is a jam/Red-Rocks town; **face-value fan-to-fan resale is culturally

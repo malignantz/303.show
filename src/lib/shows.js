@@ -96,9 +96,21 @@ export function fmtTime(t) {
 	return m ? `${h12}:${String(m).padStart(2, '0')}${ap}` : `${h12}${ap}`;
 }
 
-/** CashOrTrade face-value resale search for an artist (works for any name). */
+/**
+ * CashOrTrade artist page. Their scheme is a slugified artist + "-tickets",
+ * e.g. múm -> https://cashortrade.org/mum-tickets (accents folded away).
+ * Only link this for venues CashOrTrade actually carries — see
+ * `venue.cashOrTrade`, set in the pipeline.
+ */
 export function cashOrTradeUrl(artist) {
-	return `https://cashortrade.org/search?q=${encodeURIComponent(artist)}`;
+	const slug = String(artist || '')
+		.normalize('NFKD')
+		.replace(/[\u0300-\u036f]/g, '') // strip diacritics: ú -> u
+		.toLowerCase()
+		.replace(/&/g, ' and ')
+		.replace(/[^a-z0-9]+/g, '-')
+		.replace(/^-+|-+$/g, '');
+	return slug ? `https://cashortrade.org/${slug}-tickets` : null;
 }
 
 /** Google Maps search URL for a venue. */

@@ -1,8 +1,8 @@
 {
-	"generatedAt": "2026-07-23T13:46:26.758Z",
+	"generatedAt": "2026-07-24T01:54:09.164Z",
 	"source": "sheet",
 	"year": "rolling (2026/2027)",
-	"count": 3284,
+	"count": 3297,
 	"shows": [
 		{
 			"id": "d7bf4b63c6",
@@ -978,7 +978,8 @@
 				"neighborhood": "Sun Valley",
 				"city": "Denver",
 				"address": "1338 1st St, Denver, CO 80204",
-				"known": true
+				"known": true,
+				"cashOrTrade": true
 			},
 			"date": "2026-07-24",
 			"time": "20:00",
@@ -1152,30 +1153,6 @@
 			"date": "2026-07-25",
 			"time": "19:00",
 			"ticketUrl": "https://www.etix.com/ticket/p/62891985/lelo-wgroovepill-denver-cervantesother-side?cobrand=Cervantes&partner_id=100",
-			"ticketPlatform": "Etix",
-			"soldOut": false,
-			"cancelled": false,
-			"free": false,
-			"addedAt": "2026-07-09"
-		},
-		{
-			"id": "0320eb92cc",
-			"slug": "thicker-skin-2026-07-25",
-			"artist": "Thicker Skin",
-			"support": [
-				"Hoodrat"
-			],
-			"venue": {
-				"name": "Lost Lake Lounge",
-				"slug": "lost-lake",
-				"neighborhood": "Bluebird District",
-				"city": "Denver",
-				"address": "3602 E Colfax Ave, Denver, CO 80206",
-				"known": true
-			},
-			"date": "2026-07-25",
-			"time": "19:00",
-			"ticketUrl": "https://www.etix.com/ticket/p/76654300/thicker-skin-whoodrat-rhoar-denver-lost-lake-lounge?partner_id=100",
 			"ticketPlatform": "Etix",
 			"soldOut": false,
 			"cancelled": false,
@@ -1961,7 +1938,10 @@
 			"id": "e081c5eb5f",
 			"slug": "out-in-front-2026-07-29",
 			"artist": "Out In Front",
-			"support": [],
+			"support": [
+				"Capture This",
+				"Public Figure"
+			],
 			"venue": {
 				"name": "Globe Hall",
 				"slug": "globe-hall",
@@ -2258,7 +2238,7 @@
 			"slug": "dave-endlessly-2026-07-30",
 			"artist": "Dave Endlessly",
 			"support": [
-				"Beeler",
+				"Pyramyd",
 				"Brigitte Benson"
 			],
 			"venue": {
@@ -2650,7 +2630,8 @@
 				"neighborhood": "Sun Valley",
 				"city": "Denver",
 				"address": "1338 1st St, Denver, CO 80204",
-				"known": true
+				"known": true,
+				"cashOrTrade": true
 			},
 			"date": "2026-07-31",
 			"time": "19:00",
@@ -2794,7 +2775,10 @@
 			"id": "d3a2d95b7c",
 			"slug": "all-2026-07-31",
 			"artist": "ALL",
-			"support": [],
+			"support": [
+				"All My Senses",
+				"Horse Bitch"
+			],
 			"venue": {
 				"name": "Gothic Theatre",
 				"slug": "gothic-theatre",
@@ -3357,7 +3341,9 @@
 			"slug": "dombresky-2026-08-01",
 			"artist": "Dombresky",
 			"support": [
-				"Walker & Royce"
+				"Walker & Royce",
+				"Don Fuego",
+				"Aft3rs"
 			],
 			"venue": {
 				"name": "Mission Ballroom",
@@ -3575,7 +3561,8 @@
 			"support": [
 				"Of VIrtue",
 				"Set For Tomorrow",
-				"Sorry X"
+				"Sorry X",
+				"Buried In Lies"
 			],
 			"venue": {
 				"name": "The Black Sheep",
@@ -5292,7 +5279,8 @@
 				"neighborhood": "Sun Valley",
 				"city": "Denver",
 				"address": "1338 1st St, Denver, CO 80204",
-				"known": true
+				"known": true,
+				"cashOrTrade": true
 			},
 			"date": "2026-08-08",
 			"time": "19:00",
@@ -6668,6 +6656,7 @@
 			"slug": "the-common-goode-2026-08-13",
 			"artist": "The Common Goode",
 			"support": [
+				"The Rhythm Stooges",
 				"Cosmic Beach Resort"
 			],
 			"venue": {
@@ -6931,7 +6920,8 @@
 				"neighborhood": "Sun Valley",
 				"city": "Denver",
 				"address": "1338 1st St, Denver, CO 80204",
-				"known": true
+				"known": true,
+				"cashOrTrade": true
 			},
 			"date": "2026-08-14",
 			"time": "19:00",
@@ -7143,32 +7133,6 @@
 			"addedAt": "2026-07-09"
 		},
 		{
-			"id": "ad49fcec27",
-			"slug": "black-tusk-2026-08-14",
-			"artist": "Black Tusk",
-			"support": [
-				"Upon A Field's Whisper",
-				"Victim of Fire",
-				"Tainted Blade"
-			],
-			"venue": {
-				"name": "Hi-Dive",
-				"slug": "hi-dive",
-				"neighborhood": "South Broadway",
-				"city": "Denver",
-				"address": "7 S Broadway, Denver, CO 80209",
-				"known": true
-			},
-			"date": "2026-08-14",
-			"time": "20:00",
-			"ticketUrl": "https://link.dice.fm/E3c82d933b05",
-			"ticketPlatform": "DICE",
-			"soldOut": false,
-			"cancelled": false,
-			"free": false,
-			"addedAt": "2026-07-09"
-		},
-		{
 			"id": "8018bfbcb2",
 			"slug": "cancerslug-2026-08-14",
 			"artist": "Cancerslug",
@@ -7211,6 +7175,31 @@
 			"cancelled": false,
 			"free": false,
 			"addedAt": "2026-07-09"
+		},
+		{
+			"id": "36d09eca94",
+			"slug": "night-child-2026-08-14",
+			"artist": "Night Child",
+			"support": [
+				"Upon A Field's Whisper",
+				"Victim of Fire"
+			],
+			"venue": {
+				"name": "Hi-Dive",
+				"slug": "hi-dive",
+				"neighborhood": "South Broadway",
+				"city": "Denver",
+				"address": "7 S Broadway, Denver, CO 80209",
+				"known": true
+			},
+			"date": "2026-08-14",
+			"time": "20:00",
+			"ticketUrl": "https://hi-dive.com/listing/night-child-upon-a-fields-whisper-victim-of-fire/",
+			"ticketPlatform": "hi-dive.com",
+			"soldOut": false,
+			"cancelled": false,
+			"free": false,
+			"addedAt": "2026-07-23"
 		},
 		{
 			"id": "aa88e1b8fb",
@@ -7465,7 +7454,8 @@
 				"neighborhood": "Sun Valley",
 				"city": "Denver",
 				"address": "1338 1st St, Denver, CO 80204",
-				"known": true
+				"known": true,
+				"cashOrTrade": true
 			},
 			"date": "2026-08-15",
 			"time": "19:00",
@@ -9047,6 +9037,32 @@
 			"addedAt": "2026-07-09"
 		},
 		{
+			"id": "b7fa06d704",
+			"slug": "overtime-winner-2026-08-21",
+			"artist": "Overtime Winner",
+			"support": [
+				"benched.",
+				"The Man is Dead",
+				"Red40"
+			],
+			"venue": {
+				"name": "Marquis Theater",
+				"slug": "marquis-theater",
+				"neighborhood": "LoDo",
+				"city": "Denver",
+				"address": "2009 Larimer St, Denver, CO 80205",
+				"known": true
+			},
+			"date": "2026-08-21",
+			"time": "19:00",
+			"ticketUrl": "https://www.ticketmaster.com/overtime-winner-denver-colorado-08-21-2026/event/1E0064F5BCC6B367",
+			"ticketPlatform": "Ticketmaster",
+			"soldOut": false,
+			"cancelled": false,
+			"free": false,
+			"addedAt": "2026-07-23"
+		},
+		{
 			"id": "5407798811",
 			"slug": "grupo-frontera-2026-08-21",
 			"artist": "Grupo Frontera",
@@ -10053,9 +10069,9 @@
 			"addedAt": "2026-07-09"
 		},
 		{
-			"id": "55fc1d7362",
-			"slug": "quicksand-band-2026-08-23",
-			"artist": "Quicksand & Band",
+			"id": "243f05c6c1",
+			"slug": "quicksand-bane-2026-08-23",
+			"artist": "Quicksand & Bane",
 			"support": [
 				"Soul Blind",
 				"Public Opinion"
@@ -10075,7 +10091,7 @@
 			"soldOut": false,
 			"cancelled": false,
 			"free": false,
-			"addedAt": "2026-07-09"
+			"addedAt": "2026-07-23"
 		},
 		{
 			"id": "ee99e080f9",
@@ -10837,7 +10853,8 @@
 				"neighborhood": "Sun Valley",
 				"city": "Denver",
 				"address": "1338 1st St, Denver, CO 80204",
-				"known": true
+				"known": true,
+				"cashOrTrade": true
 			},
 			"date": "2026-08-28",
 			"time": "19:00",
@@ -11785,6 +11802,28 @@
 			"cancelled": false,
 			"free": false,
 			"addedAt": "2026-07-09"
+		},
+		{
+			"id": "111227b231",
+			"slug": "kingdom-collapse-2026-09-02",
+			"artist": "Kingdom Collapse",
+			"support": [],
+			"venue": {
+				"name": "The Black Sheep",
+				"slug": "black-sheep",
+				"neighborhood": "Colorado Springs",
+				"city": "Colorado Springs",
+				"address": "2106 E Platte Ave, Colorado Springs, CO 80909",
+				"known": true
+			},
+			"date": "2026-09-02",
+			"time": "19:00",
+			"ticketUrl": "https://www.ticketweb.com/event/kingdom-collapse-black-sheep-tickets/14270244?pl=blacksheep&REFID=clientsitewp",
+			"ticketPlatform": "TicketWeb",
+			"soldOut": false,
+			"cancelled": false,
+			"free": false,
+			"addedAt": "2026-07-23"
 		},
 		{
 			"id": "3bfee26f04",
@@ -13148,6 +13187,28 @@
 			"addedAt": "2026-07-09"
 		},
 		{
+			"id": "f07bbe0513",
+			"slug": "k-motionz-2026-09-10",
+			"artist": "K Motionz",
+			"support": [],
+			"venue": {
+				"name": "Larimer Lounge",
+				"slug": "larimer-lounge",
+				"neighborhood": "RiNo",
+				"city": "Denver",
+				"address": "2721 Larimer St, Denver, CO 80205",
+				"known": true
+			},
+			"date": "2026-09-10",
+			"time": "19:00",
+			"ticketUrl": "https://www.etix.com/ticket/p/69588914/k-motionz-denver-larimer-lounge?partner_id=100",
+			"ticketPlatform": "Etix",
+			"soldOut": false,
+			"cancelled": false,
+			"free": false,
+			"addedAt": "2026-07-23"
+		},
+		{
 			"id": "ca3bd3a07c",
 			"slug": "moon-destroys-2026-09-10",
 			"artist": "Moon Destroys",
@@ -13781,7 +13842,8 @@
 				"neighborhood": "Sun Valley",
 				"city": "Denver",
 				"address": "1338 1st St, Denver, CO 80204",
-				"known": true
+				"known": true,
+				"cashOrTrade": true
 			},
 			"date": "2026-09-12",
 			"time": "19:00",
@@ -13796,7 +13858,9 @@
 			"id": "c1fe9472ba",
 			"slug": "slow-magic-2026-09-12",
 			"artist": "Slow Magic",
-			"support": [],
+			"support": [
+				"Evilbegone"
+			],
 			"venue": {
 				"name": "Globe Hall",
 				"slug": "globe-hall",
@@ -14569,7 +14633,8 @@
 			"slug": "cola-2026-09-16",
 			"artist": "Cola",
 			"support": [
-				"Artificial Go"
+				"Artificial Go",
+				"Cherry Spit"
 			],
 			"venue": {
 				"name": "Hi-Dive",
@@ -15007,7 +15072,10 @@
 			"id": "baaf9dea02",
 			"slug": "pallbearer-2026-09-18",
 			"artist": "Pallbearer",
-			"support": [],
+			"support": [
+				"Ordh",
+				"Bleakheart"
+			],
 			"venue": {
 				"name": "Marquis Theater",
 				"slug": "marquis-theater",
@@ -15392,7 +15460,8 @@
 				"neighborhood": "Sun Valley",
 				"city": "Denver",
 				"address": "1338 1st St, Denver, CO 80204",
-				"known": true
+				"known": true,
+				"cashOrTrade": true
 			},
 			"date": "2026-09-19",
 			"time": "19:00",
@@ -15840,7 +15909,7 @@
 			"slug": "chanel-beads-2026-09-21",
 			"artist": "Chanel Beads",
 			"support": [
-				"Mechatok",
+				"Horse Vision",
 				"Anastasia Coop"
 			],
 			"venue": {
@@ -15873,7 +15942,8 @@
 				"neighborhood": "Sun Valley",
 				"city": "Denver",
 				"address": "1338 1st St, Denver, CO 80204",
-				"known": true
+				"known": true,
+				"cashOrTrade": true
 			},
 			"date": "2026-09-21",
 			"time": "19:00",
@@ -16338,7 +16408,8 @@
 			"artist": "Show Me The Body",
 			"support": [
 				"Whispers",
-				"Jivebomb"
+				"Lip Critic",
+				"Holder"
 			],
 			"venue": {
 				"name": "Gothic Theatre",
@@ -16407,6 +16478,28 @@
 			"addedAt": "2026-07-09"
 		},
 		{
+			"id": "99dc6f56f5",
+			"slug": "bella-renee-2026-09-24",
+			"artist": "Bella Renee",
+			"support": [],
+			"venue": {
+				"name": "Larimer Lounge",
+				"slug": "larimer-lounge",
+				"neighborhood": "RiNo",
+				"city": "Denver",
+				"address": "2721 Larimer St, Denver, CO 80205",
+				"known": true
+			},
+			"date": "2026-09-24",
+			"time": "19:00",
+			"ticketUrl": "https://www.etix.com/ticket/p/33940371/bella-renee-denver-larimer-lounge?partner_id=100",
+			"ticketPlatform": "Etix",
+			"soldOut": false,
+			"cancelled": false,
+			"free": false,
+			"addedAt": "2026-07-23"
+		},
+		{
 			"id": "51e385143f",
 			"slug": "erykah-badu-2026-09-24",
 			"artist": "Erykah Badu",
@@ -16441,7 +16534,8 @@
 				"neighborhood": "Sun Valley",
 				"city": "Denver",
 				"address": "1338 1st St, Denver, CO 80204",
-				"known": true
+				"known": true,
+				"cashOrTrade": true
 			},
 			"date": "2026-09-24",
 			"time": "19:00",
@@ -17138,7 +17232,11 @@
 			"id": "1fdde77664",
 			"slug": "prospa-2026-09-25",
 			"artist": "Prospa",
-			"support": [],
+			"support": [
+				"Locklead",
+				"Grace Arribas",
+				"Sebs"
+			],
 			"venue": {
 				"name": "Mission Ballroom",
 				"slug": "mission-ballroom",
@@ -17466,7 +17564,9 @@
 			"id": "7b1caf89d6",
 			"slug": "ian-mcconnell-2026-09-26",
 			"artist": "Ian Mcconnell",
-			"support": [],
+			"support": [
+				"Stovetop Gemini"
+			],
 			"venue": {
 				"name": "Globe Hall",
 				"slug": "globe-hall",
@@ -17495,7 +17595,8 @@
 				"neighborhood": "Sun Valley",
 				"city": "Denver",
 				"address": "1338 1st St, Denver, CO 80204",
-				"known": true
+				"known": true,
+				"cashOrTrade": true
 			},
 			"date": "2026-09-26",
 			"time": "19:00",
@@ -17913,7 +18014,9 @@
 			"id": "a4d2f19276",
 			"slug": "l-l-2026-09-27",
 			"artist": "LØLØ",
-			"support": [],
+			"support": [
+				"Caroline Romano"
+			],
 			"venue": {
 				"name": "Bluebird Theater",
 				"slug": "bluebird-theater",
@@ -18013,7 +18116,8 @@
 				"neighborhood": "Sun Valley",
 				"city": "Denver",
 				"address": "1338 1st St, Denver, CO 80204",
-				"known": true
+				"known": true,
+				"cashOrTrade": true
 			},
 			"date": "2026-09-28",
 			"time": "18:00",
@@ -18342,7 +18446,8 @@
 				"neighborhood": "Sun Valley",
 				"city": "Denver",
 				"address": "1338 1st St, Denver, CO 80204",
-				"known": true
+				"known": true,
+				"cashOrTrade": true
 			},
 			"date": "2026-09-29",
 			"time": "19:00",
@@ -18685,7 +18790,9 @@
 			"id": "3527786cce",
 			"slug": "paris-paloma-2026-09-30",
 			"artist": "Paris Paloma",
-			"support": [],
+			"support": [
+				"Susannah Joffe"
+			],
 			"venue": {
 				"name": "Ogden Theatre",
 				"slug": "ogden-theatre",
@@ -19409,6 +19516,28 @@
 			"addedAt": "2026-07-09"
 		},
 		{
+			"id": "087f5f337e",
+			"slug": "jackson-marshall-2026-10-03",
+			"artist": "Jackson Marshall",
+			"support": [],
+			"venue": {
+				"name": "Lost Lake Lounge",
+				"slug": "lost-lake",
+				"neighborhood": "Bluebird District",
+				"city": "Denver",
+				"address": "3602 E Colfax Ave, Denver, CO 80206",
+				"known": true
+			},
+			"date": "2026-10-03",
+			"time": "19:00",
+			"ticketUrl": "https://www.etix.com/ticket/p/71885866/jackson-marshall-denver-lost-lake-lounge?partner_id=100",
+			"ticketPlatform": "Etix",
+			"soldOut": false,
+			"cancelled": false,
+			"free": false,
+			"addedAt": "2026-07-23"
+		},
+		{
 			"id": "93171c4ce8",
 			"slug": "jane-remover-2026-10-03",
 			"artist": "Jane Remover",
@@ -19838,7 +19967,8 @@
 				"neighborhood": "Sun Valley",
 				"city": "Denver",
 				"address": "1338 1st St, Denver, CO 80204",
-				"known": true
+				"known": true,
+				"cashOrTrade": true
 			},
 			"date": "2026-10-05",
 			"time": "19:00",
@@ -20050,7 +20180,8 @@
 				"neighborhood": "Sun Valley",
 				"city": "Denver",
 				"address": "1338 1st St, Denver, CO 80204",
-				"known": true
+				"known": true,
+				"cashOrTrade": true
 			},
 			"date": "2026-10-06",
 			"time": "19:00",
@@ -20917,7 +21048,8 @@
 				"neighborhood": "Sun Valley",
 				"city": "Denver",
 				"address": "1338 1st St, Denver, CO 80204",
-				"known": true
+				"known": true,
+				"cashOrTrade": true
 			},
 			"date": "2026-10-09",
 			"time": "19:00",
@@ -21175,7 +21307,8 @@
 				"neighborhood": "Sun Valley",
 				"city": "Denver",
 				"address": "1338 1st St, Denver, CO 80204",
-				"known": true
+				"known": true,
+				"cashOrTrade": true
 			},
 			"date": "2026-10-10",
 			"time": "19:00",
@@ -21404,7 +21537,9 @@
 			"id": "7098cdaeb5",
 			"slug": "hans-williams-2026-10-10",
 			"artist": "Hans Williams",
-			"support": [],
+			"support": [
+				"Cece Coakley"
+			],
 			"venue": {
 				"name": "Bluebird Theater",
 				"slug": "bluebird-theater",
@@ -21506,7 +21641,9 @@
 			"id": "6bc2705cbd",
 			"slug": "hans-williams-2026-10-11",
 			"artist": "Hans Williams",
-			"support": [],
+			"support": [
+				"Cece Coakley"
+			],
 			"venue": {
 				"name": "The Black Sheep",
 				"slug": "black-sheep",
@@ -21902,6 +22039,34 @@
 			"cancelled": false,
 			"free": false,
 			"addedAt": "2026-07-09"
+		},
+		{
+			"id": "65484ba48b",
+			"slug": "yg-2026-10-13",
+			"artist": "YG",
+			"support": [
+				"Mozzy",
+				"Kalan.frfr",
+				"Natalie Nunn",
+				"Chef Boy",
+				"DJ Vision"
+			],
+			"venue": {
+				"name": "Fillmore Auditorium",
+				"slug": "fillmore-auditorium",
+				"neighborhood": "Capitol Hill",
+				"city": "Denver",
+				"address": "1510 Clarkson St, Denver, CO 80218",
+				"known": true
+			},
+			"date": "2026-10-13",
+			"time": "19:00",
+			"ticketUrl": "https://www.ticketmaster.com/yg-the-gentlemens-club-tour-denver-colorado-10-13-2026/event/1E0064F4896F5575",
+			"ticketPlatform": "Ticketmaster",
+			"soldOut": false,
+			"cancelled": false,
+			"free": false,
+			"addedAt": "2026-07-23"
 		},
 		{
 			"id": "4ac4cc6eab",
@@ -22483,7 +22648,8 @@
 				"neighborhood": "Sun Valley",
 				"city": "Denver",
 				"address": "1338 1st St, Denver, CO 80204",
-				"known": true
+				"known": true,
+				"cashOrTrade": true
 			},
 			"date": "2026-10-16",
 			"time": "18:00",
@@ -22954,7 +23120,8 @@
 				"neighborhood": "Sun Valley",
 				"city": "Denver",
 				"address": "1338 1st St, Denver, CO 80204",
-				"known": true
+				"known": true,
+				"cashOrTrade": true
 			},
 			"date": "2026-10-17",
 			"time": "19:00",
@@ -23158,7 +23325,10 @@
 			"id": "cdf7f3c672",
 			"slug": "blu-eues-2026-10-18",
 			"artist": "Blu Eues",
-			"support": [],
+			"support": [
+				"Ni",
+				"Co"
+			],
 			"venue": {
 				"name": "Marquis Theater",
 				"slug": "marquis-theater",
@@ -23573,6 +23743,30 @@
 			"cancelled": false,
 			"free": false,
 			"addedAt": "2026-07-09"
+		},
+		{
+			"id": "407f47ace0",
+			"slug": "this-wild-life-2026-10-20",
+			"artist": "This Wild Life",
+			"support": [
+				"Nate Bergman"
+			],
+			"venue": {
+				"name": "Marquis Theater",
+				"slug": "marquis-theater",
+				"neighborhood": "LoDo",
+				"city": "Denver",
+				"address": "2009 Larimer St, Denver, CO 80205",
+				"known": true
+			},
+			"date": "2026-10-20",
+			"time": "19:00",
+			"ticketUrl": "https://www.ticketmaster.com/this-wild-life-denver-colorado-10-20-2026/event/1E0064F1BF25D512",
+			"ticketPlatform": "Ticketmaster",
+			"soldOut": false,
+			"cancelled": false,
+			"free": false,
+			"addedAt": "2026-07-23"
 		},
 		{
 			"id": "27fd6cc2f0",
@@ -24059,7 +24253,8 @@
 				"neighborhood": "Sun Valley",
 				"city": "Denver",
 				"address": "1338 1st St, Denver, CO 80204",
-				"known": true
+				"known": true,
+				"cashOrTrade": true
 			},
 			"date": "2026-10-23",
 			"time": "21:30",
@@ -24146,6 +24341,31 @@
 			"addedAt": "2026-07-09"
 		},
 		{
+			"id": "23d8426003",
+			"slug": "hairitage-2026-10-24",
+			"artist": "Hairitage",
+			"support": [
+				"NEOTEK",
+				"Sleazy Lettuce"
+			],
+			"venue": {
+				"name": "Cervantes' Masterpiece Ballroom",
+				"slug": "cervantes-masterpiece",
+				"neighborhood": "Five Points",
+				"city": "Denver",
+				"address": "2637 Welton St, Denver, CO 80205",
+				"known": true
+			},
+			"date": "2026-10-24",
+			"time": "20:00",
+			"ticketUrl": "https://www.etix.com/ticket/p/81444344/hairitage-wneoteksleazy-lettuce-denver-cervantesmasterpiece-ballroom-and-cervantes-other-side?cobrand=Cervantes&partner_id=100",
+			"ticketPlatform": "Etix",
+			"soldOut": false,
+			"cancelled": false,
+			"free": false,
+			"addedAt": "2026-07-23"
+		},
+		{
 			"id": "0218415b8a",
 			"slug": "kettama-2026-10-24",
 			"artist": "Kettama",
@@ -24178,7 +24398,8 @@
 				"neighborhood": "Sun Valley",
 				"city": "Denver",
 				"address": "1338 1st St, Denver, CO 80204",
-				"known": true
+				"known": true,
+				"cashOrTrade": true
 			},
 			"date": "2026-10-24",
 			"time": "21:30",
@@ -24474,7 +24695,8 @@
 				"neighborhood": "Sun Valley",
 				"city": "Denver",
 				"address": "1338 1st St, Denver, CO 80204",
-				"known": true
+				"known": true,
+				"cashOrTrade": true
 			},
 			"date": "2026-10-27",
 			"time": "19:00",
@@ -24879,6 +25101,28 @@
 			"addedAt": "2026-07-09"
 		},
 		{
+			"id": "5f51a8929e",
+			"slug": "chaparelle-2026-10-29",
+			"artist": "Chaparelle",
+			"support": [],
+			"venue": {
+				"name": "Bluebird Theater",
+				"slug": "bluebird-theater",
+				"neighborhood": "Bluebird District",
+				"city": "Denver",
+				"address": "3317 E Colfax Ave, Denver, CO 80206",
+				"known": true
+			},
+			"date": "2026-10-29",
+			"time": "20:00",
+			"ticketUrl": "https://www.axs.com/events/1528356/chaparelle-tickets?skin=bluebird",
+			"ticketPlatform": "AXS",
+			"soldOut": false,
+			"cancelled": false,
+			"free": false,
+			"addedAt": "2026-07-23"
+		},
+		{
 			"id": "82a92866d4",
 			"slug": "dinosaur-jr-2026-10-29",
 			"artist": "Dinosaur Jr.",
@@ -24973,6 +25217,30 @@
 			"cancelled": false,
 			"free": false,
 			"addedAt": "2026-07-09"
+		},
+		{
+			"id": "00dac28a42",
+			"slug": "greg-freeman-2026-10-30",
+			"artist": "Greg Freeman",
+			"support": [
+				"Trinity Ace"
+			],
+			"venue": {
+				"name": "Marquis Theater",
+				"slug": "marquis-theater",
+				"neighborhood": "LoDo",
+				"city": "Denver",
+				"address": "2009 Larimer St, Denver, CO 80205",
+				"known": true
+			},
+			"date": "2026-10-30",
+			"time": "19:00",
+			"ticketUrl": "https://www.ticketmaster.com/greg-freeman-denver-colorado-10-30-2026/event/1E0064EFD43CB882",
+			"ticketPlatform": "Ticketmaster",
+			"soldOut": false,
+			"cancelled": false,
+			"free": false,
+			"addedAt": "2026-07-23"
 		},
 		{
 			"id": "9029b60d0a",
@@ -25081,7 +25349,8 @@
 				"neighborhood": "Sun Valley",
 				"city": "Denver",
 				"address": "1338 1st St, Denver, CO 80204",
-				"known": true
+				"known": true,
+				"cashOrTrade": true
 			},
 			"date": "2026-10-30",
 			"time": "20:00",
@@ -25470,7 +25739,9 @@
 			"id": "e735a531fb",
 			"slug": "julia-jacklin-2026-10-31",
 			"artist": "Julia Jacklin",
-			"support": [],
+			"support": [
+				"Jordan Patterson"
+			],
 			"venue": {
 				"name": "Gothic Theatre",
 				"slug": "gothic-theatre",
@@ -25677,6 +25948,31 @@
 			"cancelled": false,
 			"free": false,
 			"addedAt": "2026-07-09"
+		},
+		{
+			"id": "a4a4037b4e",
+			"slug": "quadeca-2026-11-02",
+			"artist": "Quadeca",
+			"support": [
+				"DERBY",
+				"Oleka"
+			],
+			"venue": {
+				"name": "Summit Music Hall",
+				"slug": "summit-music-hall",
+				"neighborhood": "Ballpark",
+				"city": "Denver",
+				"address": "1902 Blake St, Denver, CO 80202",
+				"known": true
+			},
+			"date": "2026-11-02",
+			"time": "18:00",
+			"ticketUrl": "https://www.ticketmaster.com/quadeca-denver-colorado-11-02-2026/event/1E0064F4ED972E2B",
+			"ticketPlatform": "Ticketmaster",
+			"soldOut": false,
+			"cancelled": false,
+			"free": false,
+			"addedAt": "2026-07-23"
 		},
 		{
 			"id": "1988c99d3c",
@@ -25972,30 +26268,6 @@
 			"time": "20:00",
 			"ticketUrl": "https://www.etix.com/ticket/p/71285244/r%C3%B8z-presentsse-esta-haciendo-tarde-denver-cervantesmasterpiece-ballroom-and-cervantes-other-side?cobrand=Cervantes&partner_id=100",
 			"ticketPlatform": "Etix",
-			"soldOut": false,
-			"cancelled": false,
-			"free": false,
-			"addedAt": "2026-07-09"
-		},
-		{
-			"id": "125e0bb357",
-			"slug": "the-band-of-heathens-2026-11-04",
-			"artist": "The Band of Heathens",
-			"support": [
-				"Donavon Frankenreiter"
-			],
-			"venue": {
-				"name": "Bluebird Theater",
-				"slug": "bluebird-theater",
-				"neighborhood": "Bluebird District",
-				"city": "Denver",
-				"address": "3317 E Colfax Ave, Denver, CO 80206",
-				"known": true
-			},
-			"date": "2026-11-04",
-			"time": "20:00",
-			"ticketUrl": "https://www.axs.com/events/1511115/the-band-of-heathens-donavon-frankenreiter-tickets?skin=bluebird",
-			"ticketPlatform": "AXS",
 			"soldOut": false,
 			"cancelled": false,
 			"free": false,
@@ -26933,7 +27205,8 @@
 				"neighborhood": "Sun Valley",
 				"city": "Denver",
 				"address": "1338 1st St, Denver, CO 80204",
-				"known": true
+				"known": true,
+				"cashOrTrade": true
 			},
 			"date": "2026-11-12",
 			"time": "19:00",
@@ -27028,7 +27301,8 @@
 				"neighborhood": "Sun Valley",
 				"city": "Denver",
 				"address": "1338 1st St, Denver, CO 80204",
-				"known": true
+				"known": true,
+				"cashOrTrade": true
 			},
 			"date": "2026-11-13",
 			"time": "18:30",
@@ -27265,7 +27539,8 @@
 				"neighborhood": "Sun Valley",
 				"city": "Denver",
 				"address": "1338 1st St, Denver, CO 80204",
-				"known": true
+				"known": true,
+				"cashOrTrade": true
 			},
 			"date": "2026-11-14",
 			"time": "19:00",
@@ -27324,6 +27599,28 @@
 			"cancelled": false,
 			"free": false,
 			"addedAt": "2026-07-09"
+		},
+		{
+			"id": "b0f969363d",
+			"slug": "surely-tempo-2026-11-14",
+			"artist": "Surely Tempo",
+			"support": [],
+			"venue": {
+				"name": "Marquis Theater",
+				"slug": "marquis-theater",
+				"neighborhood": "LoDo",
+				"city": "Denver",
+				"address": "2009 Larimer St, Denver, CO 80205",
+				"known": true
+			},
+			"date": "2026-11-14",
+			"time": "19:00",
+			"ticketUrl": "https://www.ticketmaster.com/surely-tempo-denver-colorado-11-14-2026/event/1E0064EFE587CD58",
+			"ticketPlatform": "Ticketmaster",
+			"soldOut": false,
+			"cancelled": false,
+			"free": false,
+			"addedAt": "2026-07-23"
 		},
 		{
 			"id": "f3331a2c4a",
@@ -27735,7 +28032,8 @@
 				"neighborhood": "Sun Valley",
 				"city": "Denver",
 				"address": "1338 1st St, Denver, CO 80204",
-				"known": true
+				"known": true,
+				"cashOrTrade": true
 			},
 			"date": "2026-11-19",
 			"time": "19:00",
@@ -28553,6 +28851,31 @@
 			"addedAt": "2026-07-09"
 		},
 		{
+			"id": "17d99f469a",
+			"slug": "psycroptic-2026-12-01",
+			"artist": "Psycroptic",
+			"support": [
+				"Inferi",
+				"Cognitive"
+			],
+			"venue": {
+				"name": "HQ",
+				"slug": "hq-denver",
+				"neighborhood": "Baker",
+				"city": "Denver",
+				"address": "60 S Broadway, Denver, CO 80209",
+				"known": true
+			},
+			"date": "2026-12-01",
+			"time": "18:30",
+			"ticketUrl": "https://hqdenver.holdmyticket.com/tickets/465319",
+			"ticketPlatform": "HoldMyTicket",
+			"soldOut": false,
+			"cancelled": false,
+			"free": false,
+			"addedAt": "2026-07-23"
+		},
+		{
 			"id": "c360f9e6e5",
 			"slug": "as-i-lay-dying-2026-12-01",
 			"artist": "As I Lay Dying",
@@ -29344,6 +29667,32 @@
 			"addedAt": "2026-07-09"
 		},
 		{
+			"id": "f32825a575",
+			"slug": "trivium-2026-12-13",
+			"artist": "Trivium",
+			"support": [
+				"In Flames",
+				"Orbit Culture",
+				"Frozen SOul"
+			],
+			"venue": {
+				"name": "Mission Ballroom",
+				"slug": "mission-ballroom",
+				"neighborhood": "RiNo",
+				"city": "Denver",
+				"address": "4242 Wynkoop St, Denver, CO 80216",
+				"known": true
+			},
+			"date": "2026-12-13",
+			"time": "18:30",
+			"ticketUrl": "https://www.axs.com/events/1524012/trivium-tickets",
+			"ticketPlatform": "AXS",
+			"soldOut": false,
+			"cancelled": false,
+			"free": false,
+			"addedAt": "2026-07-23"
+		},
+		{
 			"id": "4907a1c61c",
 			"slug": "dexter-and-the-moonrocks-2026-12-17",
 			"artist": "Dexter and the Moonrocks",
@@ -29482,6 +29831,30 @@
 			"cancelled": false,
 			"free": false,
 			"addedAt": "2026-07-09"
+		},
+		{
+			"id": "6fdd22fd3b",
+			"slug": "emma-ruth-rundle-2026-12-19",
+			"artist": "Emma Ruth Rundle",
+			"support": [
+				"Cinder Well"
+			],
+			"venue": {
+				"name": "Bluebird Theater",
+				"slug": "bluebird-theater",
+				"neighborhood": "Bluebird District",
+				"city": "Denver",
+				"address": "3317 E Colfax Ave, Denver, CO 80206",
+				"known": true
+			},
+			"date": "2026-12-19",
+			"time": "20:00",
+			"ticketUrl": "https://www.axs.com/events/1533686/emma-ruth-rundle-these-killing-times-tickets?skin=bluebird",
+			"ticketPlatform": "AXS",
+			"soldOut": false,
+			"cancelled": false,
+			"free": false,
+			"addedAt": "2026-07-23"
 		},
 		{
 			"id": "adda5af80b",
@@ -30601,7 +30974,8 @@
 				"neighborhood": "Sun Valley",
 				"city": "Denver",
 				"address": "1338 1st St, Denver, CO 80204",
-				"known": true
+				"known": true,
+				"cashOrTrade": true
 			},
 			"date": "2027-01-09",
 			"time": "19:00",
@@ -31214,7 +31588,8 @@
 				"neighborhood": "Sun Valley",
 				"city": "Denver",
 				"address": "1338 1st St, Denver, CO 80204",
-				"known": true
+				"known": true,
+				"cashOrTrade": true
 			},
 			"date": "2027-01-10",
 			"time": "19:00",
@@ -31929,7 +32304,8 @@
 				"neighborhood": "Sun Valley",
 				"city": "Denver",
 				"address": "1338 1st St, Denver, CO 80204",
-				"known": true
+				"known": true,
+				"cashOrTrade": true
 			},
 			"date": "2027-01-16",
 			"time": "19:00",
@@ -32328,7 +32704,8 @@
 				"neighborhood": "Sun Valley",
 				"city": "Denver",
 				"address": "1338 1st St, Denver, CO 80204",
-				"known": true
+				"known": true,
+				"cashOrTrade": true
 			},
 			"date": "2027-01-17",
 			"time": "19:00",
@@ -33201,7 +33578,8 @@
 				"neighborhood": "Sun Valley",
 				"city": "Denver",
 				"address": "1338 1st St, Denver, CO 80204",
-				"known": true
+				"known": true,
+				"cashOrTrade": true
 			},
 			"date": "2027-01-23",
 			"time": "19:00",
@@ -33722,7 +34100,8 @@
 				"neighborhood": "Sun Valley",
 				"city": "Denver",
 				"address": "1338 1st St, Denver, CO 80204",
-				"known": true
+				"known": true,
+				"cashOrTrade": true
 			},
 			"date": "2027-01-24",
 			"time": "19:00",
@@ -34854,7 +35233,8 @@
 				"neighborhood": "Sun Valley",
 				"city": "Denver",
 				"address": "1338 1st St, Denver, CO 80204",
-				"known": true
+				"known": true,
+				"cashOrTrade": true
 			},
 			"date": "2027-01-30",
 			"time": "20:00",
@@ -35325,7 +35705,8 @@
 				"neighborhood": "Sun Valley",
 				"city": "Denver",
 				"address": "1338 1st St, Denver, CO 80204",
-				"known": true
+				"known": true,
+				"cashOrTrade": true
 			},
 			"date": "2027-01-31",
 			"time": "20:00",
@@ -36887,7 +37268,8 @@
 				"neighborhood": "Sun Valley",
 				"city": "Denver",
 				"address": "1338 1st St, Denver, CO 80204",
-				"known": true
+				"known": true,
+				"cashOrTrade": true
 			},
 			"date": "2027-02-07",
 			"time": "20:00",
@@ -38066,7 +38448,8 @@
 				"neighborhood": "Sun Valley",
 				"city": "Denver",
 				"address": "1338 1st St, Denver, CO 80204",
-				"known": true
+				"known": true,
+				"cashOrTrade": true
 			},
 			"date": "2027-02-13",
 			"time": "21:30",
@@ -38632,7 +39015,8 @@
 				"neighborhood": "Sun Valley",
 				"city": "Denver",
 				"address": "1338 1st St, Denver, CO 80204",
-				"known": true
+				"known": true,
+				"cashOrTrade": true
 			},
 			"date": "2027-02-16",
 			"time": "19:00",
@@ -40897,7 +41281,8 @@
 				"neighborhood": "Sun Valley",
 				"city": "Denver",
 				"address": "1338 1st St, Denver, CO 80204",
-				"known": true
+				"known": true,
+				"cashOrTrade": true
 			},
 			"date": "2027-02-27",
 			"time": "19:00",
@@ -41773,7 +42158,8 @@
 				"neighborhood": "Sun Valley",
 				"city": "Denver",
 				"address": "1338 1st St, Denver, CO 80204",
-				"known": true
+				"known": true,
+				"cashOrTrade": true
 			},
 			"date": "2027-02-27",
 			"time": "20:00",
@@ -42181,7 +42567,8 @@
 				"neighborhood": "Sun Valley",
 				"city": "Denver",
 				"address": "1338 1st St, Denver, CO 80204",
-				"known": true
+				"known": true,
+				"cashOrTrade": true
 			},
 			"date": "2027-02-28",
 			"time": "20:00",
@@ -42557,7 +42944,8 @@
 				"neighborhood": "Sun Valley",
 				"city": "Denver",
 				"address": "1338 1st St, Denver, CO 80204",
-				"known": true
+				"known": true,
+				"cashOrTrade": true
 			},
 			"date": "2027-03-03",
 			"time": "18:00",
@@ -42825,7 +43213,8 @@
 				"neighborhood": "Sun Valley",
 				"city": "Denver",
 				"address": "1338 1st St, Denver, CO 80204",
-				"known": true
+				"known": true,
+				"cashOrTrade": true
 			},
 			"date": "2027-03-04",
 			"time": "19:00",
@@ -43561,7 +43950,8 @@
 				"neighborhood": "Sun Valley",
 				"city": "Denver",
 				"address": "1338 1st St, Denver, CO 80204",
-				"known": true
+				"known": true,
+				"cashOrTrade": true
 			},
 			"date": "2027-03-06",
 			"time": "20:00",
@@ -45236,7 +45626,8 @@
 				"neighborhood": "Sun Valley",
 				"city": "Denver",
 				"address": "1338 1st St, Denver, CO 80204",
-				"known": true
+				"known": true,
+				"cashOrTrade": true
 			},
 			"date": "2027-03-13",
 			"time": "20:00",
@@ -45630,7 +46021,8 @@
 				"neighborhood": "Sun Valley",
 				"city": "Denver",
 				"address": "1338 1st St, Denver, CO 80204",
-				"known": true
+				"known": true,
+				"cashOrTrade": true
 			},
 			"date": "2027-03-14",
 			"time": "19:00",
@@ -47183,7 +47575,8 @@
 				"neighborhood": "Sun Valley",
 				"city": "Denver",
 				"address": "1338 1st St, Denver, CO 80204",
-				"known": true
+				"known": true,
+				"cashOrTrade": true
 			},
 			"date": "2027-03-20",
 			"time": "20:00",
@@ -47773,7 +48166,8 @@
 				"neighborhood": "Sun Valley",
 				"city": "Denver",
 				"address": "1338 1st St, Denver, CO 80204",
-				"known": true
+				"known": true,
+				"cashOrTrade": true
 			},
 			"date": "2027-03-22",
 			"time": "19:00",
@@ -48016,7 +48410,8 @@
 				"neighborhood": "Sun Valley",
 				"city": "Denver",
 				"address": "1338 1st St, Denver, CO 80204",
-				"known": true
+				"known": true,
+				"cashOrTrade": true
 			},
 			"date": "2027-03-24",
 			"time": "18:00",
@@ -50626,7 +51021,8 @@
 				"neighborhood": "Sun Valley",
 				"city": "Denver",
 				"address": "1338 1st St, Denver, CO 80204",
-				"known": true
+				"known": true,
+				"cashOrTrade": true
 			},
 			"date": "2027-04-03",
 			"time": "18:00",
@@ -52863,7 +53259,8 @@
 				"neighborhood": "Sun Valley",
 				"city": "Denver",
 				"address": "1338 1st St, Denver, CO 80204",
-				"known": true
+				"known": true,
+				"cashOrTrade": true
 			},
 			"date": "2027-04-10",
 			"time": "19:00",
@@ -53503,7 +53900,8 @@
 				"neighborhood": "Sun Valley",
 				"city": "Denver",
 				"address": "1338 1st St, Denver, CO 80204",
-				"known": true
+				"known": true,
+				"cashOrTrade": true
 			},
 			"date": "2027-04-11",
 			"time": "19:00",
@@ -54730,7 +55128,8 @@
 				"neighborhood": "Sun Valley",
 				"city": "Denver",
 				"address": "1338 1st St, Denver, CO 80204",
-				"known": true
+				"known": true,
+				"cashOrTrade": true
 			},
 			"date": "2027-04-16",
 			"time": "19:00",
@@ -55884,7 +56283,8 @@
 				"neighborhood": "Sun Valley",
 				"city": "Denver",
 				"address": "1338 1st St, Denver, CO 80204",
-				"known": true
+				"known": true,
+				"cashOrTrade": true
 			},
 			"date": "2027-04-18",
 			"time": "20:00",
@@ -56313,7 +56713,8 @@
 				"neighborhood": "Sun Valley",
 				"city": "Denver",
 				"address": "1338 1st St, Denver, CO 80204",
-				"known": true
+				"known": true,
+				"cashOrTrade": true
 			},
 			"date": "2027-04-19",
 			"time": "19:00",
@@ -56676,7 +57077,8 @@
 				"neighborhood": "Sun Valley",
 				"city": "Denver",
 				"address": "1338 1st St, Denver, CO 80204",
-				"known": true
+				"known": true,
+				"cashOrTrade": true
 			},
 			"date": "2027-04-21",
 			"time": "19:00",
@@ -57374,7 +57776,8 @@
 				"neighborhood": "Sun Valley",
 				"city": "Denver",
 				"address": "1338 1st St, Denver, CO 80204",
-				"known": true
+				"known": true,
+				"cashOrTrade": true
 			},
 			"date": "2027-04-23",
 			"time": "20:00",
@@ -58402,7 +58805,8 @@
 				"neighborhood": "Sun Valley",
 				"city": "Denver",
 				"address": "1338 1st St, Denver, CO 80204",
-				"known": true
+				"known": true,
+				"cashOrTrade": true
 			},
 			"date": "2027-04-25",
 			"time": "20:00",
@@ -60210,7 +60614,8 @@
 				"neighborhood": "Sun Valley",
 				"city": "Denver",
 				"address": "1338 1st St, Denver, CO 80204",
-				"known": true
+				"known": true,
+				"cashOrTrade": true
 			},
 			"date": "2027-05-01",
 			"time": "20:00",
@@ -60648,7 +61053,8 @@
 				"neighborhood": "Sun Valley",
 				"city": "Denver",
 				"address": "1338 1st St, Denver, CO 80204",
-				"known": true
+				"known": true,
+				"cashOrTrade": true
 			},
 			"date": "2027-05-02",
 			"time": "19:00",
@@ -63088,7 +63494,8 @@
 				"neighborhood": "Sun Valley",
 				"city": "Denver",
 				"address": "1338 1st St, Denver, CO 80204",
-				"known": true
+				"known": true,
+				"cashOrTrade": true
 			},
 			"date": "2027-05-09",
 			"time": "20:00",
@@ -63879,7 +64286,8 @@
 				"neighborhood": "Sun Valley",
 				"city": "Denver",
 				"address": "1338 1st St, Denver, CO 80204",
-				"known": true
+				"known": true,
+				"cashOrTrade": true
 			},
 			"date": "2027-05-13",
 			"time": "19:00",
@@ -65383,7 +65791,8 @@
 				"neighborhood": "Sun Valley",
 				"city": "Denver",
 				"address": "1338 1st St, Denver, CO 80204",
-				"known": true
+				"known": true,
+				"cashOrTrade": true
 			},
 			"date": "2027-05-16",
 			"time": "21:30",
@@ -66790,7 +67199,8 @@
 				"neighborhood": "Sun Valley",
 				"city": "Denver",
 				"address": "1338 1st St, Denver, CO 80204",
-				"known": true
+				"known": true,
+				"cashOrTrade": true
 			},
 			"date": "2027-05-21",
 			"time": "20:00",
@@ -67708,7 +68118,8 @@
 				"neighborhood": "Sun Valley",
 				"city": "Denver",
 				"address": "1338 1st St, Denver, CO 80204",
-				"known": true
+				"known": true,
+				"cashOrTrade": true
 			},
 			"date": "2027-05-23",
 			"time": "19:00",
@@ -69063,7 +69474,8 @@
 				"neighborhood": "Sun Valley",
 				"city": "Denver",
 				"address": "1338 1st St, Denver, CO 80204",
-				"known": true
+				"known": true,
+				"cashOrTrade": true
 			},
 			"date": "2027-05-29",
 			"time": "19:00",
@@ -70702,7 +71114,8 @@
 				"neighborhood": "Sun Valley",
 				"city": "Denver",
 				"address": "1338 1st St, Denver, CO 80204",
-				"known": true
+				"known": true,
+				"cashOrTrade": true
 			},
 			"date": "2027-06-03",
 			"time": "19:00",
@@ -72288,7 +72701,8 @@
 				"neighborhood": "Sun Valley",
 				"city": "Denver",
 				"address": "1338 1st St, Denver, CO 80204",
-				"known": true
+				"known": true,
+				"cashOrTrade": true
 			},
 			"date": "2027-06-07",
 			"time": "19:00",
@@ -72603,7 +73017,8 @@
 				"neighborhood": "Sun Valley",
 				"city": "Denver",
 				"address": "1338 1st St, Denver, CO 80204",
-				"known": true
+				"known": true,
+				"cashOrTrade": true
 			},
 			"date": "2027-06-09",
 			"time": "19:00",
@@ -72822,7 +73237,8 @@
 				"neighborhood": "Sun Valley",
 				"city": "Denver",
 				"address": "1338 1st St, Denver, CO 80204",
-				"known": true
+				"known": true,
+				"cashOrTrade": true
 			},
 			"date": "2027-06-10",
 			"time": "19:00",
@@ -76518,7 +76934,8 @@
 				"neighborhood": "Sun Valley",
 				"city": "Denver",
 				"address": "1338 1st St, Denver, CO 80204",
-				"known": true
+				"known": true,
+				"cashOrTrade": true
 			},
 			"date": "2027-06-21",
 			"time": "19:00",
